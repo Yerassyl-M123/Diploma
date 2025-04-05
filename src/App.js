@@ -1,25 +1,113 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
+import AiScannerPage from './pages/AiScannerPage';
+import CreateRecipePage from './pages/CreateRecipePage';
+import EditRecipePage from './pages/EditRecipePage';
+import HomePage from './pages/HomePage';
+import ProductSearchPage from './pages/ProductSearchPage';
+import ProfilePage from './pages/ProfilePage';
+import RecipeDetailPage from './pages/RecipeDetailPage';
+import RecipePage from './pages/RecipePage';
+import SettingsPage from './pages/SettingsPage';
+import SigninPage from './pages/SigninPage';
+import SignupPage from './pages/SignupPage';
+import './styles/theme.css';
+import { withAuth } from './utils/auth';
 
-function App() {
+export const AuthContext = React.createContext({
+  isAuthenticated: false,
+  isLoading: true,
+  refreshAuth: () => {}
+});
+
+const App = () => {
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    isLoading: true,
+    user: null
+  });
+
+  const refreshAuth = async () => {
+    setAuthState({
+      ...authState,
+      isLoading: true
+    });
+    
+    try {
+      const timestamp = new Date().getTime();
+      const response = await axios.get(`http://localhost:8080/check-auth?t=${timestamp}`, { 
+        withCredentials: true 
+      });
+      
+      setAuthState({
+        isAuthenticated: true,
+        isLoading: false,
+        user: response.data.user || null
+      });
+      
+      return true;
+    } catch (error) {
+      setAuthState({
+        isAuthenticated: false,
+        isLoading: false,
+        user: null
+      });
+      
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const loginSuccess = searchParams.get('login_success');
+    
+    if (loginSuccess === 'true') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      refreshAuth();
+    } else {
+      refreshAuth();
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider value={{ ...authState, refreshAuth }}>
+      <ThemeProvider>
+        <Router>
+          <div className="app-container">
+            <main>
+              {authState.isLoading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{minHeight: '100vh'}}>
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Загрузка...</span>
+                  </div>
+                </div>
+              ) : (
+                <Switch>
+                  <Route path="/signup">
+                    {authState.isAuthenticated ? <Redirect to="/" /> : <SignupPage />}
+                  </Route>
+                  <Route path="/signin">
+                    {authState.isAuthenticated ? <Redirect to="/" /> : <SigninPage />}
+                  </Route>
+                  <Route path="/recipes/:id" component={withAuth(RecipeDetailPage)} />
+                  <Route path="/create-recipe" component={withAuth(CreateRecipePage)} />
+                  <Route path="/edit-recipe/:id" component={withAuth(EditRecipePage)} />
+                  <Route path="/recipes" component={withAuth(RecipePage)} />
+                  <Route path="/profile" component={withAuth(ProfilePage)} />
+                  <Route path="/product-search" component={withAuth(ProductSearchPage)} />
+                  <Route path="/ai-scanner" component={withAuth(AiScannerPage)} />
+                  <Route path="/settings" component={withAuth(SettingsPage)} />
+                  <Route path="/" component={withAuth(HomePage)} />
+                </Switch>
+              )}
+            </main>
+          </div>
+        </Router>
+      </ThemeProvider>
+    </AuthContext.Provider>
   );
-}
+};
 
 export default App;
