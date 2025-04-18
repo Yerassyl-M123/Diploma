@@ -25,7 +25,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/profile', {
+        const response = await axios.get('https://back-c6rh.onrender.com/profile', {
           withCredentials: true
         });
         setUser(response.data);
@@ -59,7 +59,7 @@ const HomePage = () => {
     const fetchMealPlan = async () => {
       try {
         const dateStr = selectedDate.toISOString().split('T')[0];
-        const response = await axios.get('http://localhost:8080/meal-plan', {
+        const response = await axios.get('https://back-c6rh.onrender.com/meal-plan', {
           params: { date: dateStr },
           withCredentials: true
         });
@@ -89,7 +89,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/recipes', {
+        const response = await axios.get('https://back-c6rh.onrender.com/recipes', {
           withCredentials: true
         });
         setRecipes(response.data);
@@ -104,7 +104,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchWeightRecords = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/weight-records', {
+        const response = await axios.get('https://back-c6rh.onrender.com/weight-records', {
           withCredentials: true
         });
         setWeightRecords(response.data);
@@ -138,18 +138,26 @@ const HomePage = () => {
 
   const getRecipeImage = (recipeId) => {
     const recipe = recipes.find(r => r.id === recipeId);
-    return recipe && recipe.image ? `http://localhost:8080${recipe.image}` : null;
+    return recipe && recipe.image ? `https://back-c6rh.onrender.com${recipe.image}` : null;
   };
 
   const handleSignOut = async () => {
     try {
-      await axios.post('http://localhost:8080/signout', {}, { withCredentials: true });
+      await axios.post('https://back-c6rh.onrender.com/signout', {}, { 
+        withCredentials: true 
+      });
       
-      refreshAuth(); 
+      localStorage.removeItem('authState');
       
-      history.push('/welcome');
+      setTimeout(() => {
+        refreshAuth().then(() => {
+          history.push('/welcome');
+        });
+      }, 300);
     } catch (error) {
       console.error('Ошибка при выходе из системы:', error);
+      refreshAuth();
+      history.push('/welcome');
     }
   };
 
@@ -181,7 +189,7 @@ const HomePage = () => {
               <Link to="/profile" className="d-flex align-items-center text-decoration-none me-3">
                 {user.profile_picture ? (
                   <Image 
-                    src={`http://localhost:8080${user.profile_picture}`} 
+                    src={`https://back-c6rh.onrender.com${user.profile_picture}`} 
                     roundedCircle 
                     width={40} 
                     height={40} 
@@ -234,7 +242,7 @@ const HomePage = () => {
               <div className="text-center mb-4 d-block d-md-none">
                 {user.profile_picture ? (
                   <Image 
-                    src={`http://localhost:8080${user.profile_picture}`} 
+                    src={`https://back-c6rh.onrender.com${user.profile_picture}`} 
                     roundedCircle 
                     width={60} 
                     height={60} 
@@ -727,7 +735,7 @@ const HomePage = () => {
                     >
                       <div style={{ 
                         height: '140px', 
-                        backgroundImage: recipe.image ? `url(http://localhost:8080${recipe.image})` : 'none',
+                        backgroundImage: recipe.image ? `url(https://back-c6rh.onrender.com${recipe.image})` : 'none',
                         backgroundColor: recipe.image ? 'transparent' : '#f5f5f5',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',

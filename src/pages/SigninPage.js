@@ -44,7 +44,7 @@ const SigninPage = () => {
     
     try {
       const response = await axios.post(
-        'http://localhost:8080/signin', 
+        'https://back-c6rh.onrender.com/signin', 
         { email, password },
         { withCredentials: true }
       );
@@ -63,7 +63,7 @@ const SigninPage = () => {
   };
 
   const handleGoogleSignin = () => {
-    window.location.href = 'http://localhost:8080/auth/google?type=signin';
+    window.location.href = 'https://back-c6rh.onrender.com/auth/google?type=signin';
   };
 
   const handleRequestCode = async () => {
@@ -77,7 +77,7 @@ const SigninPage = () => {
     setResetSuccess('');
 
     try {
-      const response = await axios.post('http://localhost:8080/reset-password', { email: resetEmail });
+      const response = await axios.post('https://back-c6rh.onrender.com/reset-password', { email: resetEmail });
       setResetSuccess('Код для восстановления пароля отправлен на ваш email');
       setResetStep(2);
     } catch (error) {
@@ -98,7 +98,7 @@ const SigninPage = () => {
     setResetSuccess('');
 
     try {
-      const response = await axios.post('http://localhost:8080/verify-code', { 
+      const response = await axios.post('https://back-c6rh.onrender.com/verify-code', { 
         email: resetEmail, 
         code: resetCode 
       });
@@ -132,7 +132,7 @@ const SigninPage = () => {
     setResetSuccess('');
 
     try {
-      const response = await axios.post('http://localhost:8080/update-password', {
+      const response = await axios.post('https://back-c6rh.onrender.com/update-password', {
         email: resetEmail,
         newPassword: newPassword
       });

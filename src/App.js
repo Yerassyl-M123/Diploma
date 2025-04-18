@@ -38,7 +38,7 @@ const App = () => {
     
     try {
       const timestamp = new Date().getTime();
-      const response = await axios.get(`http://localhost:8080/check-auth?t=${timestamp}`, { 
+      const response = await axios.get(`https://back-c6rh.onrender.com/check-auth?t=${timestamp}`, { 
         withCredentials: true 
       });
       

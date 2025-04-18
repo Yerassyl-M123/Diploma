@@ -23,16 +23,16 @@ const RecipeDetailPage = () => {
       try {
         setLoading(true);
         
-        const recipeResponse = await axios.get(`http://localhost:8080/recipes/${id}`);
+        const recipeResponse = await axios.get(`https://back-c6rh.onrender.com/recipes/${id}`);
         setRecipe(recipeResponse.data);
         
         try {
-          const authResponse = await axios.get('http://localhost:8080/check-auth', { withCredentials: true });
+          const authResponse = await axios.get('https://back-c6rh.onrender.com/check-auth', { withCredentials: true });
           if (authResponse.status === 200) {
-            const profileResponse = await axios.get('http://localhost:8080/profile', { withCredentials: true });
+            const profileResponse = await axios.get('https://back-c6rh.onrender.com/profile', { withCredentials: true });
             setUserId(profileResponse.data.id);
             
-            const favoritesResponse = await axios.get('http://localhost:8080/favorite-recipes', { withCredentials: true });
+            const favoritesResponse = await axios.get('https://back-c6rh.onrender.com/favorite-recipes', { withCredentials: true });
             const isInFavorites = favoritesResponse.data.some(favRecipe => favRecipe.id === parseInt(id));
             setIsFavorite(isInFavorites);
           }
@@ -55,7 +55,7 @@ const RecipeDetailPage = () => {
     if (!window.confirm('Вы уверены, что хотите удалить этот рецепт?')) return;
     
     try {
-      await axios.delete(`http://localhost:8080/my-recipes/${id}`, { withCredentials: true });
+      await axios.delete(`https://back-c6rh.onrender.com/my-recipes/${id}`, { withCredentials: true });
       history.push('/recipes');
     } catch (error) {
       console.error('Ошибка при удалении рецепта:', error);
@@ -70,9 +70,9 @@ const RecipeDetailPage = () => {
   const toggleFavorite = async () => {
     try {
       if (isFavorite) {
-        await axios.delete(`http://localhost:8080/favorite-recipes/${id}`, { withCredentials: true });
+        await axios.delete(`https://back-c6rh.onrender.com/favorite-recipes/${id}`, { withCredentials: true });
       } else {
-        await axios.post(`http://localhost:8080/favorite-recipes/${id}`, {}, { withCredentials: true });
+        await axios.post(`https://back-c6rh.onrender.com/favorite-recipes/${id}`, {}, { withCredentials: true });
       }
       setIsFavorite(!isFavorite);
     } catch (error) {
@@ -86,7 +86,7 @@ const RecipeDetailPage = () => {
     
     try {
       await axios.post(
-        'http://localhost:8080/meal-plan',
+        'https://back-c6rh.onrender.com/meal-plan',
         {
           recipe_id: parseInt(id),
           date: selectedDate,
@@ -136,7 +136,7 @@ const RecipeDetailPage = () => {
   const steps = Array.isArray(recipe.steps) ? recipe.steps : 
                 (typeof recipe.steps === 'string' ? JSON.parse(recipe.steps) : []);
   
-  const imageUrl = recipe.image ? `http://localhost:8080${recipe.image}` : '';
+  const imageUrl = recipe.image ? `https://back-c6rh.onrender.com${recipe.image}` : '';
 
   return (
     <Container fluid className="px-0">

@@ -121,7 +121,7 @@ const CreateRecipePage = () => {
       }
 
       const response = await axios.post(
-        'http://localhost:8080/my-recipes',
+        'https://back-c6rh.onrender.com/my-recipes',
         formData,
         {
           withCredentials: true,

@@ -57,7 +57,7 @@ const SignupPage = () => {
     
     try {
       const response = await axios.post(
-        'http://localhost:8080/signup', 
+        'https://back-c6rh.onrender.com/signup', 
         { email, username, password },
         { withCredentials: true }
       );
@@ -73,7 +73,7 @@ const SignupPage = () => {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = 'http://localhost:8080/auth/google?type=signup';
+    window.location.href = 'https://back-c6rh.onrender.com/auth/google?type=signup';
   };
 
   return (

@@ -20,7 +20,7 @@ const RecipePage = () => {
   useEffect(() => {
     const fetchAllRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/recipes');
+        const response = await axios.get('https://back-c6rh.onrender.com/recipes');
         setAllRecipes(response.data);
       } catch (error) {
         console.error('Ошибка при загрузке всех рецептов:', error);
@@ -34,7 +34,7 @@ const RecipePage = () => {
   useEffect(() => {
     const fetchUserRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/my-recipes', { withCredentials: true });
+        const response = await axios.get('https://back-c6rh.onrender.com/my-recipes', { withCredentials: true });
         setUserRecipes(response.data);
       } catch (error) {
         console.error('Ошибка при загрузке рецептов пользователя:', error);
@@ -49,7 +49,7 @@ const RecipePage = () => {
   useEffect(() => {
     const fetchFavoriteRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/favorite-recipes', { withCredentials: true });
+        const response = await axios.get('https://back-c6rh.onrender.com/favorite-recipes', { withCredentials: true });
         setFavoriteRecipes(response.data);
       } catch (error) {
         console.error('Ошибка при загрузке избранных рецептов:', error);
@@ -65,7 +65,7 @@ const RecipePage = () => {
 
   const handleDeleteRecipe = async (recipeId) => {
     try {
-      await axios.delete(`http://localhost:8080/my-recipes/${recipeId}`, { withCredentials: true });
+      await axios.delete(`https://back-c6rh.onrender.com/my-recipes/${recipeId}`, { withCredentials: true });
       setUserRecipes(userRecipes.filter((r) => r.id !== recipeId));
       
       setFavoriteRecipes(favoriteRecipes.filter((r) => r.id !== recipeId));
@@ -82,10 +82,10 @@ const RecipePage = () => {
       const isInFavorites = favoriteRecipes.some(favRecipe => favRecipe.id === recipe.id);
       
       if (isInFavorites) {
-        await axios.delete(`http://localhost:8080/favorite-recipes/${recipe.id}`, { withCredentials: true });
+        await axios.delete(`https://back-c6rh.onrender.com/favorite-recipes/${recipe.id}`, { withCredentials: true });
         setFavoriteRecipes(favoriteRecipes.filter(r => r.id !== recipe.id));
       } else {
-        await axios.post(`http://localhost:8080/favorite-recipes/${recipe.id}`, {}, { withCredentials: true });
+        await axios.post(`https://back-c6rh.onrender.com/favorite-recipes/${recipe.id}`, {}, { withCredentials: true });
         setFavoriteRecipes([...favoriteRecipes, recipe]);
       }
     } catch (error) {
@@ -100,7 +100,7 @@ const RecipePage = () => {
     
     setIsSearching(true);
     try {
-      const response = await axios.get(`http://localhost:8080/search-recipes?q=${searchQuery}`);
+      const response = await axios.get(`https://back-c6rh.onrender.com/search-recipes?q=${searchQuery}`);
       setSearchResults(response.data);
       setActiveTab('search');
     } catch (error) {
@@ -116,7 +116,7 @@ const RecipePage = () => {
   };
 
   const RecipeCard = ({ recipe, isUserRecipe = false }) => {
-    const imageUrl = recipe.image ? `http://localhost:8080${recipe.image}` : '';
+    const imageUrl = recipe.image ? `https://back-c6rh.onrender.com${recipe.image}` : '';
     
     return (
       <Card 

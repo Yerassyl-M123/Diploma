@@ -40,7 +40,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/profile', {
+        const response = await axios.get('https://back-c6rh.onrender.com/profile', {
           withCredentials: true
         });
         setUser(response.data);
@@ -70,7 +70,7 @@ const ProfilePage = () => {
     const fetchFavoriteRecipes = async () => {
       try {
         setLoadingFavorites(true);
-        const response = await axios.get('http://localhost:8080/favorite-recipes', { 
+        const response = await axios.get('https://back-c6rh.onrender.com/favorite-recipes', { 
           withCredentials: true 
         });
         setFavoriteRecipes(response.data);
@@ -87,7 +87,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/recipes');
+        const response = await axios.get('https://back-c6rh.onrender.com/recipes');
         setRecipes(response.data);
       } catch (error) {
         console.error('Ошибка при загрузке рецептов:', error);
@@ -104,7 +104,7 @@ const ProfilePage = () => {
       try {
         setLoadingMealPlan(true);
         const dateStr = selectedDate.toISOString().split('T')[0];
-        const response = await axios.get('http://localhost:8080/meal-plan', {
+        const response = await axios.get('https://back-c6rh.onrender.com/meal-plan', {
           params: { date: dateStr },
           withCredentials: true
         });
@@ -140,7 +140,7 @@ const ProfilePage = () => {
 
   const getRecipeImage = (recipeId) => {
     const recipe = recipes.find(r => r.id === recipeId);
-    return recipe && recipe.image ? `http://localhost:8080${recipe.image}` : null;
+    return recipe && recipe.image ? `https://back-c6rh.onrender.com${recipe.image}` : null;
   };
 
   const formatDate = (date) => {
@@ -161,18 +161,23 @@ const ProfilePage = () => {
     setSelectedDate(newDate);
   };
 
-  const handleLogout = async () => {
+  const handleSignOut = async () => {
     try {
-      await axios.post('http://localhost:8080/signout', {}, {
-        withCredentials: true
+      await axios.post('https://back-c6rh.onrender.com/signout', {}, { 
+        withCredentials: true 
       });
       
-      await refreshAuth();
+      localStorage.removeItem('authState');
       
+      setTimeout(() => {
+        refreshAuth().then(() => {
+          history.push('/welcome');
+        });
+      }, 300);
+    } catch (error) {
+      console.error('Ошибка при выходе из системы:', error);
+      refreshAuth();
       history.push('/welcome');
-    } catch (err) {
-      console.error('Ошибка при выходе из системы:', err);
-      setError('Не удалось выйти из системы');
     }
   };
 
@@ -216,7 +221,7 @@ const ProfilePage = () => {
         formData.append('profile_picture', editForm.profile_picture);
       }
       
-      const response = await axios.put('http://localhost:8080/profile', formData, {
+      const response = await axios.put('https://back-c6rh.onrender.com/profile', formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -238,7 +243,7 @@ const ProfilePage = () => {
   };
 
   const RecipeCard = ({ recipe }) => {
-    const imageUrl = recipe.image ? `http://localhost:8080${recipe.image}` : '';
+    const imageUrl = recipe.image ? `https://back-c6rh.onrender.com${recipe.image}` : '';
     
     return (
       <Card 
@@ -329,7 +334,7 @@ const ProfilePage = () => {
           </Button>
           <Button 
             variant={theme === 'dark' ? 'outline-danger' : 'outline-danger'} 
-            onClick={handleLogout}
+            onClick={handleSignOut}
             className="d-flex align-items-center"
           >
             <i className="bi bi-box-arrow-right me-2"></i> Выйти
@@ -399,7 +404,7 @@ const ProfilePage = () => {
                   <Card.Body className="text-center py-4">
                     {user.profile_picture ? (
                       <img 
-                        src={`http://localhost:8080${user.profile_picture}`} 
+                        src={`https://back-c6rh.onrender.com${user.profile_picture}`} 
                         alt="Фото профиля" 
                         className="rounded-circle mb-3"
                         style={{ width: '120px', height: '120px', objectFit: 'cover', border: '3px solid #4682B4' }}
@@ -800,7 +805,7 @@ const ProfilePage = () => {
                           />
                         ) : user.profile_picture ? (
                           <img 
-                            src={`http://localhost:8080${user.profile_picture}`} 
+                            src={`https://back-c6rh.onrender.com${user.profile_picture}`} 
                             alt="Текущее фото" 
                             className="rounded-circle mb-3"
                             style={{ width: '150px', height: '150px', objectFit: 'cover', border: '3px solid #4682B4' }}

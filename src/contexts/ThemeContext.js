@@ -16,7 +16,7 @@ export const ThemeProvider = ({ children }) => {
 
     const fetchSettings = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/settings', {
+        const response = await axios.get('https://back-c6rh.onrender.com/settings', {
           withCredentials: true
         });
         
@@ -39,7 +39,7 @@ export const ThemeProvider = ({ children }) => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     
     try {
-      await axios.put('http://localhost:8080/settings', {
+      await axios.put('https://back-c6rh.onrender.com/settings', {
         theme: newTheme
       }, {
         withCredentials: true

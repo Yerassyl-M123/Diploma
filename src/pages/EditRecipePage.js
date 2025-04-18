@@ -20,7 +20,7 @@ const EditRecipePage = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/recipes/${id}`, { 
+        const response = await axios.get(`https://back-c6rh.onrender.com/recipes/${id}`, { 
           withCredentials: true 
         });
         const recipeData = response.data;
@@ -30,7 +30,7 @@ const EditRecipePage = () => {
         setStepsText(JSON.stringify(recipeData.steps, null, 2));
         
         if (recipeData.image) {
-          setPreviewImage(`http://localhost:8080${recipeData.image}`);
+          setPreviewImage(`https://back-c6rh.onrender.com${recipeData.image}`);
         }
       } catch (error) {
         console.error('Ошибка при загрузке рецепта:', error);
@@ -89,7 +89,7 @@ const EditRecipePage = () => {
         formData.append('image', imageFile);
       }
       
-      await axios.put(`http://localhost:8080/my-recipes/${id}`, formData, {
+      await axios.put(`https://back-c6rh.onrender.com/my-recipes/${id}`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data'

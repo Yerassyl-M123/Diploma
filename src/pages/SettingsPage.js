@@ -44,7 +44,7 @@ const SettingsPage = () => {
     setLoading(true);
     
     try {
-      await axios.post('http://localhost:8080/change-password', {
+      await axios.post('https://back-c6rh.onrender.com/change-password', {
         current_password: passwordForm.currentPassword,
         new_password: passwordForm.newPassword
       }, {
@@ -93,7 +93,7 @@ const SettingsPage = () => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        await axios.get('http://localhost:8080/check-auth', { withCredentials: true });
+        await axios.get('https://back-c6rh.onrender.com/check-auth', { withCredentials: true });
       } catch (error) {
         console.error('Ошибка проверки сессии:', error);
       }

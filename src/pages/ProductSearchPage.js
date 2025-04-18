@@ -27,7 +27,7 @@ const ProductSearchPage = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:8080/products');
+        const response = await axios.get('https://back-c6rh.onrender.com/products');
         setProducts(response.data);
         setError('');
       } catch (error) {
@@ -58,7 +58,7 @@ const ProductSearchPage = () => {
       formData.append('number', productNumber);
       formData.append('image', productImage);
 
-      const response = await axios.post('http://localhost:8080/products', formData, {
+      const response = await axios.post('https://back-c6rh.onrender.com/products', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -89,7 +89,7 @@ const ProductSearchPage = () => {
     try {
       setDeleteLoading(true);
       
-      await axios.delete(`http://localhost:8080/products/${productToDelete.id}`, {
+      await axios.delete(`https://back-c6rh.onrender.com/products/${productToDelete.id}`, {
         withCredentials: true
       });
       
@@ -122,7 +122,7 @@ const ProductSearchPage = () => {
     try {
       setSearchLoading(true);
       setError('');
-      const response = await axios.post('http://localhost:8080/search-recipes', selectedProducts, {
+      const response = await axios.post('https://back-c6rh.onrender.com/search-recipes', selectedProducts, {
         withCredentials: true
       });
       setRecipes(response.data);
@@ -320,7 +320,7 @@ const ProductSearchPage = () => {
                             />
                             {product.image && (
                               <Image
-                                src={`http://localhost:8080${product.image}`}
+                                src={`https://back-c6rh.onrender.com${product.image}`}
                                 alt={product.name}
                                 width={50}
                                 height={50}
@@ -392,7 +392,7 @@ const ProductSearchPage = () => {
                       <div className="position-relative" style={{ height: '180px', overflow: 'hidden' }}>
                         <Card.Img 
                           variant="top" 
-                          src={`http://localhost:8080${recipe.image}`} 
+                          src={`https://back-c6rh.onrender.com${recipe.image}`} 
                           alt={recipe.name}
                           className="object-fit-cover w-100 h-100"
                         />

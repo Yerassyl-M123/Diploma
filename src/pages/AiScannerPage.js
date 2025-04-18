@@ -48,7 +48,7 @@ const AiScannerPage = () => {
     formData.append('image', selectedImage);
 
     try {
-      const response = await axios.post('http://localhost:8080/analyze-product', formData, {
+      const response = await axios.post('https://back-c6rh.onrender.com/analyze-product', formData, {
         withCredentials: true,
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);

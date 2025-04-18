@@ -21,7 +21,7 @@ const WeightTracking = ({ currentWeight, goalWeight }) => {
   const fetchWeightRecords = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8080/weight-records?period=${period}`, {
+      const response = await axios.get(`https://back-c6rh.onrender.com/weight-records?period=${period}`, {
         withCredentials: true
       });
       setRecords(response.data);
@@ -46,7 +46,7 @@ const WeightTracking = ({ currentWeight, goalWeight }) => {
       setSuccess('');
       setGoalAchieved(false);
 
-      const response = await axios.post('http://localhost:8080/weight-records', {
+      const response = await axios.post('https://back-c6rh.onrender.com/weight-records', {
         weight: parseFloat(weight),
         date: date
       }, {
