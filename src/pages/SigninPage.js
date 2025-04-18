@@ -53,8 +53,11 @@ const SigninPage = () => {
       refreshAuth();
       
       setTimeout(() => {
-        history.push('/');
-      }, 1000);
+        refreshAuth().then(() => {
+          history.push('/');
+        });
+      }, 500);
+      
     } catch (error) {
       setError(error.response?.data?.error || 'Ошибка входа. Пожалуйста, проверьте данные и попробуйте снова.');
     } finally {
