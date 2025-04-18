@@ -39,8 +39,14 @@ const App = () => {
     try {
       const timestamp = new Date().getTime();
       const response = await axios.get(`https://back-c6rh.onrender.com/check-auth?t=${timestamp}`, { 
-        withCredentials: true 
+        withCredentials: true,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
       });
+      
+      console.log("Auth response:", response.data);
       
       setAuthState({
         isAuthenticated: true,
@@ -50,6 +56,7 @@ const App = () => {
       
       return true;
     } catch (error) {
+      console.error("Auth error:", error);
       setAuthState({
         isAuthenticated: false,
         isLoading: false,
