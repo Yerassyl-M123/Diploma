@@ -58,7 +58,7 @@ const ProfilePage = () => {
         setLoading(false);
         
         if (err.response && err.response.status === 401) {
-            history.push('/signin');
+            history.push('/welcome');
         }
       }
     };
@@ -169,7 +169,7 @@ const ProfilePage = () => {
       
       await refreshAuth();
       
-      history.push('/signin');
+      history.push('/welcome');
     } catch (err) {
       console.error('Ошибка при выходе из системы:', err);
       setError('Не удалось выйти из системы');
@@ -305,7 +305,6 @@ const ProfilePage = () => {
 
   return (
     <Container fluid className="px-0">
-      {/* Шапка с логотипом */}
       <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
@@ -339,7 +338,6 @@ const ProfilePage = () => {
       </Row>
 
       <Row className="m-0">
-        {/* Боковая навигация */}
         <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
           minHeight: 'calc(100vh - 60px)', 
           backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
@@ -370,6 +368,11 @@ const ProfilePage = () => {
             }}>
               <i className="bi bi-search me-2"></i> Поиск продуктов
             </Nav.Link>
+            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+              borderLeft: '4px solid transparent'
+            }}>
+              <i className="bi bi-search me-2"></i> AI Сканер
+            </Nav.Link>
             <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
               borderLeft: '4px solid transparent'
             }}>
@@ -378,7 +381,6 @@ const ProfilePage = () => {
           </Nav>
         </Col>
 
-        {/* Основной контент */}
         <Col xs={12} md={9} lg={10} className="p-4">
           <div className="mb-4">
             <h2 className="mb-2">Личный кабинет</h2>
@@ -528,7 +530,6 @@ const ProfilePage = () => {
                               </div>
                             </div>
                             
-                            {/* Завтрак */}
                             {mealPlan.breakfast.length > 0 && (
                               <div className="mb-4">
                                 <h6 className="mb-2"><i className="bi bi-cup-hot me-2"></i>Завтрак</h6>
@@ -563,7 +564,6 @@ const ProfilePage = () => {
                               </div>
                             )}
                             
-                            {/* Обед */}
                             {mealPlan.lunch.length > 0 && (
                               <div className="mb-4">
                                 <h6 className="mb-2"><i className="bi bi-egg-fried me-2"></i>Обед</h6>
@@ -598,7 +598,6 @@ const ProfilePage = () => {
                               </div>
                             )}
                             
-                            {/* Ужин */}
                             {mealPlan.dinner.length > 0 && (
                               <div className="mb-4">
                                 <h6 className="mb-2"><i className="bi bi-moon me-2"></i>Ужин</h6>
@@ -633,7 +632,6 @@ const ProfilePage = () => {
                               </div>
                             )}
                             
-                            {/* Перекусы */}
                             {mealPlan.snack.length > 0 && (
                               <div>
                                 <h6 className="mb-2"><i className="bi bi-apple me-2"></i>Перекусы</h6>

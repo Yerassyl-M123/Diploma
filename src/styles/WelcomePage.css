@@ -1,0 +1,194 @@
+.welcome-page {
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  .welcome-page.dark {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  .welcome-page.light {
+    background-color: #ffffff;
+    color: #333333;
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #2E8B57, #4682B4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+  
+  .hero-section {
+    padding: 4rem 0;
+  }
+  
+  .divider {
+    width: 80%;
+    max-width: 300px;
+    margin: 0 auto;
+    border-top: 3px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(135deg, #2E8B57, #4682B4);
+  }
+  
+  .feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-icon {
+    height: 80px;
+    width: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .recipe-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 4.5em; 
+  }
+  
+  .testimonial-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .star-rating {
+    color: #ffd700;
+    font-size: 1.2rem;
+  }
+  
+  .filled-star {
+    color: #ffd700;
+  }
+  
+  .empty-star {
+    color: #e4e4e4;
+  }
+  
+  .testimonial-review {
+    font-style: italic;
+    line-height: 1.6;
+  }
+  
+  .contact-info {
+    background-image: linear-gradient(135deg, #2E8B57, #4682B4);
+  }
+  
+  .icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+  }
+  
+  .social-icon-footer {
+    color: #2E8B57;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icon-footer:hover {
+    color: #4682B4;
+  }
+  
+  @media (max-width: 768px) {
+    .home-section {
+      padding: 2rem 0;
+      text-align: center;
+    }
+    
+    .feature-card,
+    .recipe-card,
+    .testimonial-card {
+      margin-bottom: 20px;
+    }
+    
+    .navbar-collapse {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .navbar-collapse .mx-auto {
+      margin: 1rem 0;
+    }
+    
+    footer .col-md-4 {
+      margin-bottom: 2rem;
+    }
+  }
+  
+  .navbar-nav .nav-link.active {
+    color: #2E8B57 !important;
+    font-weight: bold;
+  }
+  
+  .navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #4682B4 !important;
+  }
+  
+  .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background: linear-gradient(135deg, #2E8B57, #4682B4);
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover::after {
+    width: 100%;
+    left: 0;
+  }

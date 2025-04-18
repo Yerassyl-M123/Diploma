@@ -232,6 +232,11 @@ const ProductSearchPage = () => {
             }}>
               <i className="bi bi-search me-2"></i> Поиск продуктов
             </Nav.Link>
+            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+              borderLeft: '4px solid transparent'
+            }}>
+              <i className="bi bi-search me-2"></i> AI Сканер
+            </Nav.Link>
             <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
               borderLeft: '4px solid transparent'
             }}>
@@ -525,7 +530,6 @@ const ProductSearchPage = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Модальное окно подтверждения удаления */}
       <Modal
         show={showDeleteModal}
         onHide={closeDeleteModal}

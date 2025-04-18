@@ -141,7 +141,6 @@ const CreateRecipePage = () => {
 
   return (
     <Container fluid className="px-0">
-      {/* Шапка с логотипом */}
       <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
@@ -169,7 +168,6 @@ const CreateRecipePage = () => {
       </Row>
 
       <Row className="m-0">
-        {/* Боковая навигация */}
         <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
           minHeight: 'calc(100vh - 60px)', 
           backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
@@ -208,7 +206,6 @@ const CreateRecipePage = () => {
           </Nav>
         </Col>
 
-        {/* Основной контент */}
         <Col xs={12} md={9} lg={10} className="p-4">
           <div className="mb-4">
             <h2>Создать новый рецепт</h2>

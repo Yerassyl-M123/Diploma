@@ -28,7 +28,7 @@ export function withAuth(Component) {
           setIsAuthenticated(true);
         } catch (error) {
           console.error('Auth check error:', error);
-          history.push('/signin');
+          history.push('/welcome');
         } finally {
           setIsLoading(false);
         }

@@ -13,6 +13,7 @@ import RecipePage from './pages/RecipePage';
 import SettingsPage from './pages/SettingsPage';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
+import WelcomePage from './pages/WelcomePage';
 import './styles/theme.css';
 import { withAuth } from './utils/auth';
 
@@ -85,6 +86,7 @@ const App = () => {
                 </div>
               ) : (
                 <Switch>
+                  <Route path="/welcome" component={WelcomePage} />
                   <Route path="/signup">
                     {authState.isAuthenticated ? <Redirect to="/" /> : <SignupPage />}
                   </Route>

@@ -147,7 +147,7 @@ const HomePage = () => {
       
       refreshAuth(); 
       
-      history.push('/signin');
+      history.push('/welcome');
     } catch (error) {
       console.error('Ошибка при выходе из системы:', error);
     }
@@ -163,7 +163,6 @@ const HomePage = () => {
 
   return (
     <Container fluid className="px-0">
-      {/* Шапка с логотипом и профилем */}
       <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
@@ -222,7 +221,6 @@ const HomePage = () => {
       </Row>
 
       <Row className="m-0">
-        {/* Боковая навигация */}
         <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
           minHeight: 'calc(100vh - 60px)', 
           backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
@@ -326,7 +324,6 @@ const HomePage = () => {
           </div>
         </Col>
 
-        {/* Основной контент */}
         <Col xs={12} md={9} lg={10} className="p-4">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h2 className="m-0">План питания</h2>
@@ -340,7 +337,6 @@ const HomePage = () => {
             </Button>
           </div>
 
-          {/* Календарь на неделю */}
           <Card className="mb-4 shadow-sm" style={{ 
             backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
             borderRadius: '12px',
@@ -375,7 +371,6 @@ const HomePage = () => {
             </Card.Body>
           </Card>
 
-          {/* Название выбранного дня */}
           <div className="d-flex align-items-center mb-4">
             <h4 className="m-0">
               План на {selectedDate.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -386,7 +381,6 @@ const HomePage = () => {
           </div>
 
           <Row>
-            {/* Завтрак */}
             <Col md={6} lg={3} className="mb-4">
               <Card className="h-100 shadow-sm border-0" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
@@ -467,7 +461,6 @@ const HomePage = () => {
               </Card>
             </Col>
 
-            {/* Обед */}
             <Col md={6} lg={3} className="mb-4">
               <Card className="h-100 shadow-sm border-0" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
@@ -548,7 +541,6 @@ const HomePage = () => {
               </Card>
             </Col>
 
-            {/* Ужин */}
             <Col md={6} lg={3} className="mb-4">
               <Card className="h-100 shadow-sm border-0" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
@@ -629,7 +621,6 @@ const HomePage = () => {
               </Card>
             </Col>
 
-            {/* Перекусы */}
             <Col md={6} lg={3} className="mb-4">
               <Card className="h-100 shadow-sm border-0" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',

@@ -241,7 +241,6 @@ const RecipePage = () => {
 
   return (
     <Container fluid className="px-0">
-      {/* Шапка с логотипом и профилем */}
       <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
@@ -287,7 +286,6 @@ const RecipePage = () => {
       </Row>
 
       <Row className="m-0">
-        {/* Боковая навигация */}
         <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
           minHeight: 'calc(100vh - 60px)', 
           backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
@@ -318,6 +316,11 @@ const RecipePage = () => {
             }}>
               <i className="bi bi-search me-2"></i> Поиск продуктов
             </Nav.Link>
+            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+                borderLeft: '4px solid transparent'
+              }}>
+                <i className="bi bi-search me-2"></i> AI Сканер
+            </Nav.Link>
             <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
               borderLeft: '4px solid transparent'
             }}>
@@ -326,7 +329,6 @@ const RecipePage = () => {
           </Nav>
         </Col>
 
-        {/* Основной контент */}
         <Col xs={12} md={9} lg={10} className="p-4">
           {error && (
             <Alert variant="danger" onClose={() => setError('')} dismissible>

@@ -167,7 +167,6 @@ const RecipeDetailPage = () => {
       </Row>
 
       <Row className="m-0">
-        {/* Боковая навигация */}
         <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
           minHeight: 'calc(100vh - 60px)', 
           backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
@@ -206,7 +205,6 @@ const RecipeDetailPage = () => {
           </Nav>
         </Col>
 
-        {/* Основной контент */}
         <Col xs={12} md={9} lg={10} className="p-4">
           {error && (
             <Alert variant="danger" onClose={() => setError('')} dismissible>
@@ -287,7 +285,6 @@ const RecipeDetailPage = () => {
                   <h5 className="mb-0">Добавить в план питания</h5>
                 </Card.Header>
                 <Card.Body>
-                  {/* Выбор даты */}
                   <div className="mb-3">
                     <Button 
                       variant="outline-secondary" 
@@ -318,7 +315,6 @@ const RecipeDetailPage = () => {
                     )}
                   </div>
 
-                  {/* Выбор типа приема пищи */}
                   <Button 
                     variant="success" 
                     onClick={() => setShowMealTypeSelector(!showMealTypeSelector)}
