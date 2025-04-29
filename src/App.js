@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import AiScannerPage from './pages/AiScannerPage';
 import CreateRecipePage from './pages/CreateRecipePage';
@@ -37,59 +37,45 @@ const App = () => {
     });
     
     try {
-      const timestamp = new Date().getTime();
-      
       const searchParams = new URLSearchParams(window.location.search);
       const sid = searchParams.get('sid');
-      
-      const url = sid 
-        ? `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${sid}`
-        : `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
-      
-      const response = await axios.get(url, { 
-        withCredentials: true,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      console.log("Auth response:", response.data);
+      const loginSuccess = searchParams.get('login_success');
       
       if (sid) {
+        console.log("Сохраняем SID из URL в localStorage:", sid);
         localStorage.setItem('sid', sid);
+        
+        if (window.history && window.history.replaceState) {
+          const cleanURL = window.location.pathname + 
+            (window.location.search ? window.location.search.replace(/[?&]sid=[^&]+/, '') : '');
+          window.history.replaceState({}, document.title, cleanURL);
+        }
       }
+      
+      const timestamp = new Date().getTime();
+      const storedSid = localStorage.getItem('sid');
+      
+      const url = storedSid 
+        ? `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${storedSid}`
+        : `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
+        
+      console.log("Запрос на проверку авторизации:", url);
+      
+      const response = await axios.get(url, { 
+        withCredentials: true 
+      });
+      
+      console.log("Успешный ответ авторизации:", response.data);
       
       setAuthState({
         isAuthenticated: true,
         isLoading: false,
-        user: response.data.user || null
+        user: response.data.user
       });
       
       return true;
     } catch (error) {
-      console.error("Auth error:", error);
-      
-      const savedSid = localStorage.getItem('sid');
-      if (savedSid) {
-        try {
-          const timestamp = new Date().getTime();
-          const response = await axios.get(
-            `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${savedSid}`, 
-            { withCredentials: true }
-          );
-          
-          setAuthState({
-            isAuthenticated: true,
-            isLoading: false,
-            user: response.data.user || null
-          });
-          
-          return true;
-        } catch (retryError) {
-          localStorage.removeItem('sid'); 
-        }
-      }
+      console.error("Ошибка авторизации:", error);
       
       setAuthState({
         isAuthenticated: false,
@@ -128,12 +114,8 @@ const App = () => {
               ) : (
                 <Switch>
                   <Route path="/welcome" component={WelcomePage} />
-                  <Route path="/signup">
-                    {authState.isAuthenticated ? <Redirect to="/" /> : <SignupPage />}
-                  </Route>
-                  <Route path="/signin">
-                    {authState.isAuthenticated ? <Redirect to="/" /> : <SigninPage />}
-                  </Route>
+                  <Route path="/signup" component={SignupPage} />
+                  <Route path="/signin" component={SigninPage} />
                   <Route path="/recipes/:id" component={withAuth(RecipeDetailPage)} />
                   <Route path="/create-recipe" component={withAuth(CreateRecipePage)} />
                   <Route path="/edit-recipe/:id" component={withAuth(EditRecipePage)} />

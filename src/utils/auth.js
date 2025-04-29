@@ -8,10 +8,13 @@ axios.interceptors.request.use(
     if (sid && config.url.includes('back-c6rh.onrender.com')) {
       const separator = config.url.includes('?') ? '&' : '?';
       config.url = `${config.url}${separator}sid=${sid}`;
+      console.log("Добавлен SID к запросу:", config.url);
     }
     return config;
   },
-  error => Promise.reject(error)
+  error => {
+    return Promise.reject(error);
+  }
 );
 
 export function withAuth(Component) {
