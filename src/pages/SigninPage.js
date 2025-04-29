@@ -50,6 +50,10 @@ const SigninPage = () => {
       );
       setSuccess(response.data.message);
       
+      if (response.data.userId) {
+        localStorage.setItem('sid', response.data.userId.toString());
+      }
+      
       refreshAuth();
       
       setTimeout(() => {

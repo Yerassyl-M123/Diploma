@@ -32,40 +32,39 @@ const App = () => {
 
   const refreshAuth = async () => {
     setAuthState({
-      ...authState,
+      ...authState, 
       isLoading: true
     });
     
     try {
-      const searchParams = new URLSearchParams(window.location.search);
-      const sid = searchParams.get('sid');
-      const loginSuccess = searchParams.get('login_success');
+      const storedSid = localStorage.getItem('sid');
       
-      if (sid) {
-        console.log("Сохраняем SID из URL в localStorage:", sid);
-        localStorage.setItem('sid', sid);
+      const searchParams = new URLSearchParams(window.location.search);
+      const urlSid = searchParams.get('sid');
+      
+      const sid = urlSid || storedSid;
+      
+      if (urlSid) {
+        localStorage.setItem('sid', urlSid);
         
-        if (window.history && window.history.replaceState) {
-          const cleanURL = window.location.pathname + 
-            (window.location.search ? window.location.search.replace(/[?&]sid=[^&]+/, '') : '');
-          window.history.replaceState({}, document.title, cleanURL);
-        }
+        const url = new URL(window.location);
+        url.searchParams.delete('sid');
+        window.history.replaceState({}, document.title, url);
       }
       
       const timestamp = new Date().getTime();
-      const storedSid = localStorage.getItem('sid');
       
-      const url = storedSid 
-        ? `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${storedSid}`
+      const url = sid 
+        ? `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${sid}`
         : `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
         
-      console.log("Запрос на проверку авторизации:", url);
+      console.log("Auth check request URL:", url);
       
       const response = await axios.get(url, { 
-        withCredentials: true 
+        withCredentials: true
       });
       
-      console.log("Успешный ответ авторизации:", response.data);
+      console.log("Auth success, user data:", response.data);
       
       setAuthState({
         isAuthenticated: true,
@@ -75,7 +74,9 @@ const App = () => {
       
       return true;
     } catch (error) {
-      console.error("Ошибка авторизации:", error);
+      console.error("Auth error:", error);
+      
+      localStorage.removeItem('sid'); 
       
       setAuthState({
         isAuthenticated: false,
