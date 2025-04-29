@@ -38,7 +38,15 @@ const App = () => {
     
     try {
       const timestamp = new Date().getTime();
-      const response = await axios.get(`https://back-c6rh.onrender.com/check-auth?t=${timestamp}`, { 
+      
+      const searchParams = new URLSearchParams(window.location.search);
+      const sid = searchParams.get('sid');
+      
+      const url = sid 
+        ? `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${sid}`
+        : `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
+      
+      const response = await axios.get(url, { 
         withCredentials: true,
         headers: {
           'Accept': 'application/json',
@@ -47,6 +55,10 @@ const App = () => {
       });
       
       console.log("Auth response:", response.data);
+      
+      if (sid) {
+        localStorage.setItem('sid', sid);
+      }
       
       setAuthState({
         isAuthenticated: true,
@@ -57,6 +69,28 @@ const App = () => {
       return true;
     } catch (error) {
       console.error("Auth error:", error);
+      
+      const savedSid = localStorage.getItem('sid');
+      if (savedSid) {
+        try {
+          const timestamp = new Date().getTime();
+          const response = await axios.get(
+            `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${savedSid}`, 
+            { withCredentials: true }
+          );
+          
+          setAuthState({
+            isAuthenticated: true,
+            isLoading: false,
+            user: response.data.user || null
+          });
+          
+          return true;
+        } catch (retryError) {
+          localStorage.removeItem('sid'); 
+        }
+      }
+      
       setAuthState({
         isAuthenticated: false,
         isLoading: false,

@@ -2,6 +2,18 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
+axios.interceptors.request.use(
+  config => {
+    const sid = localStorage.getItem('sid');
+    if (sid && config.url.includes('back-c6rh.onrender.com')) {
+      const separator = config.url.includes('?') ? '&' : '?';
+      config.url = `${config.url}${separator}sid=${sid}`;
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
 export function withAuth(Component) {
   return function AuthenticatedComponent(props) {
     const history = useHistory();
