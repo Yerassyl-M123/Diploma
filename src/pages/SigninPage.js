@@ -48,19 +48,24 @@ const SigninPage = () => {
         { email, password },
         { withCredentials: true }
       );
-      setSuccess(response.data.message);
+      
+      setSuccess('Успешный вход! Перенаправление...');
       
       if (response.data.userId) {
         localStorage.setItem('sid', response.data.userId.toString());
+        console.log("Сохранен sid в localStorage:", response.data.userId);
       }
       
-      refreshAuth();
-      
-      setTimeout(() => {
-        refreshAuth().then(() => {
-          history.push('/');
+      refreshAuth()
+        .then(() => {
+          setTimeout(() => {
+            refreshAuth().then(() => {
+              const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/';
+              sessionStorage.removeItem('redirectAfterLogin');
+              history.push(redirectPath);
+            });
+          }, 300);
         });
-      }, 500);
       
     } catch (error) {
       setError(error.response?.data?.error || 'Ошибка входа. Пожалуйста, проверьте данные и попробуйте снова.');

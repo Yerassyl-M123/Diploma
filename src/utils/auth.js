@@ -4,11 +4,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 axios.interceptors.request.use(
   config => {
-    const sid = localStorage.getItem('sid');
-    if (sid && config.url.includes('back-c6rh.onrender.com')) {
-      const separator = config.url.includes('?') ? '&' : '?';
-      config.url = `${config.url}${separator}sid=${sid}`;
-      console.log("Добавлен SID к запросу:", config.url);
+    if (config.url.includes('back-c6rh.onrender.com') && !config.url.includes('sid=')) {
+      const sid = localStorage.getItem('sid');
+      if (sid) {
+        const separator = config.url.includes('?') ? '&' : '?';
+        config.url = `${config.url}${separator}sid=${sid}`;
+        console.log("Добавлен SID к запросу:", config.url);
+      }
     }
     return config;
   },
@@ -27,22 +29,35 @@ export function withAuth(Component) {
     useEffect(() => {
       const checkAuth = async () => {
         const searchParams = new URLSearchParams(location.search);
-        const loginSuccess = searchParams.get('login_success');
+        const sidFromUrl = searchParams.get('sid');
         
+        if (sidFromUrl) {
+          localStorage.setItem('sid', sidFromUrl);
+          const newUrl = new URL(window.location.href);
+          newUrl.searchParams.delete('sid');
+          window.history.replaceState({}, '', newUrl.toString());
+        }
+        
+        const loginSuccess = searchParams.get('login_success');
         if (loginSuccess === 'true') {
-          history.replace(location.pathname);
+          const newUrl = new URL(window.location.href);
+          newUrl.searchParams.delete('login_success');
+          if (newUrl.searchParams.has('mobile')) {
+            newUrl.searchParams.delete('mobile');
+          }
+          window.history.replaceState({}, '', newUrl.toString());
         }
 
         try {
           const timestamp = new Date().getTime();
-          const response = await axios.get(`https://back-c6rh.onrender.com/check-auth?t=${timestamp}`, { 
-            withCredentials: true 
-          });
+          const url = `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
           
-          console.log('Auth check response:', response.data);
+          const response = await axios.get(url, { withCredentials: true });
+          
           setIsAuthenticated(true);
         } catch (error) {
           console.error('Auth check error:', error);
+          sessionStorage.setItem('redirectAfterLogin', location.pathname);
           history.push('/welcome');
         } finally {
           setIsLoading(false);
@@ -75,10 +90,11 @@ export function useAuth() {
 
   const checkAuth = async () => {
     try {
+      const sid = localStorage.getItem('sid');
       const timestamp = new Date().getTime();
-      const response = await axios.get(`https://back-c6rh.onrender.com/check-auth?t=${timestamp}`, {
-        withCredentials: true
-      });
+      let url = `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
+      
+      const response = await axios.get(url, { withCredentials: true });
       
       setAuthState({
         isAuthenticated: true,

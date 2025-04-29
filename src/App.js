@@ -37,27 +37,29 @@ const App = () => {
     });
     
     try {
-      const storedSid = localStorage.getItem('sid');
-      
       const searchParams = new URLSearchParams(window.location.search);
-      const urlSid = searchParams.get('sid');
+      const sidFromUrl = searchParams.get('sid');
       
-      const sid = urlSid || storedSid;
+      if (sidFromUrl) {
+        localStorage.setItem('sid', sidFromUrl);
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.delete('sid');
+        window.history.replaceState({}, '', newUrl.toString());
+      }
       
-      if (urlSid) {
-        localStorage.setItem('sid', urlSid);
-        
-        const url = new URL(window.location);
-        url.searchParams.delete('sid');
-        window.history.replaceState({}, document.title, url);
+      const loginSuccess = searchParams.get('login_success');
+      if (loginSuccess === 'true') {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.delete('login_success');
+        if (newUrl.searchParams.has('mobile')) {
+          newUrl.searchParams.delete('mobile');
+        }
+        window.history.replaceState({}, '', newUrl.toString());
       }
       
       const timestamp = new Date().getTime();
+      const url = `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
       
-      const url = sid 
-        ? `https://back-c6rh.onrender.com/check-auth?t=${timestamp}&sid=${sid}`
-        : `https://back-c6rh.onrender.com/check-auth?t=${timestamp}`;
-        
       console.log("Auth check request URL:", url);
       
       const response = await axios.get(url, { 
@@ -75,8 +77,6 @@ const App = () => {
       return true;
     } catch (error) {
       console.error("Auth error:", error);
-      
-      localStorage.removeItem('sid'); 
       
       setAuthState({
         isAuthenticated: false,
