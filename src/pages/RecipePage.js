@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Container, Form, InputGroup, Nav, Row, Spinner, Tab } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { ThemeContext } from '../contexts/ThemeContext';
-import './styles/MobileStyles.css';
+import '../styles/MobileStyles.css';
 
 const RecipePage = () => {
   const { theme } = useContext(ThemeContext);
