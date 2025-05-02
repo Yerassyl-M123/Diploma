@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import '../styles/MobileStyles.css';
 import { ThemeProvider } from './contexts/ThemeContext';
 import AiScannerPage from './pages/AiScannerPage';
 import CreateRecipePage from './pages/CreateRecipePage';
@@ -15,6 +14,7 @@ import SettingsPage from './pages/SettingsPage';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import WelcomePage from './pages/WelcomePage';
+import './styles/MobileStyles.css';
 import './styles/theme.css';
 import { withAuth } from './utils/auth';
 

@@ -4,7 +4,7 @@ import { Badge, Button, Card, Col, Container, Image, ListGroup, Nav, Row, Spinne
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../App';
 import { ThemeContext } from '../contexts/ThemeContext';
-import '../styles/MobileStyles.css';
+import './styles/MobileStyles.css';
 
 const HomePage = () => {
   const { theme } = useContext(ThemeContext);
