@@ -1,0 +1,76 @@
+@media screen and (max-width: 768px) {
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--mobile-nav-bg);
+    z-index: 1000;
+    border-top: 1px solid var(--mobile-nav-border);
+    padding: 8px 0;
+  }
+
+  .mobile-nav .nav-link {
+    padding: 8px !important;
+    text-align: center;
+    border-left: none !important;
+    font-size: 12px;
+  }
+
+  .mobile-nav .nav-link i {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .mobile-content {
+    padding-bottom: 80px !important;
+  }
+
+  .mobile-header {
+    padding: 10px !important;
+  }
+
+  .mobile-card {
+    margin-bottom: 15px;
+  }
+
+  .mobile-search {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: var(--mobile-search-bg);
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .mobile-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -15px;
+    padding: 0 15px;
+  }
+
+  .mobile-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  }
+}
+
+:root {
+  --mobile-nav-bg: #ffffff;
+  --mobile-nav-border: #dee2e6;
+  --mobile-search-bg: #ffffff;
+}
+
+[data-theme='dark'] {
+  --mobile-nav-bg: #1a1a1a;
+  --mobile-nav-border: #444444;
+  --mobile-search-bg: #1a1a1a;
+}

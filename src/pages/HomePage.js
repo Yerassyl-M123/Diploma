@@ -4,6 +4,7 @@ import { Badge, Button, Card, Col, Container, Image, ListGroup, Nav, Row, Spinne
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../App';
 import { ThemeContext } from '../contexts/ThemeContext';
+import '../styles/MobileStyles.css';
 
 const HomePage = () => {
   const { theme } = useContext(ThemeContext);
@@ -229,108 +230,129 @@ const HomePage = () => {
       </Row>
 
       <Row className="m-0">
-        <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
-          minHeight: 'calc(100vh - 60px)', 
-          backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
-          position: 'sticky',
-          top: '60px',
-          height: 'calc(100vh - 60px)',
-          overflowY: 'auto'
-        }}>
-          <div className="py-4">
-            {user && (
-              <div className="text-center mb-4 d-block d-md-none">
-                {user.profile_picture ? (
-                  <Image 
-                    src={`https://back-c6rh.onrender.com${user.profile_picture}`} 
-                    roundedCircle 
-                    width={60} 
-                    height={60} 
-                    className="mb-2 border"
-                    style={{ objectFit: 'cover' }}
-                  />
-                ) : (
-                  <div 
-                    className="rounded-circle d-flex align-items-center justify-content-center text-white mx-auto mb-2"
-                    style={{ 
-                      width: 60, 
-                      height: 60, 
-                      background: 'linear-gradient(135deg, #4682B4, #2E8B57)',
-                      fontSize: '1.5rem' 
-                    }}
-                  >
-                    {user.full_name ? user.full_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
-                  </div>
-                )}
-                <p className="m-0" style={{ color: theme === 'dark' ? '#e0e0e0' : '#333333' }}>
-                  {user.full_name || user.email}
-                </p>
-              </div>
-            )}
-            
-            <Nav className="flex-column">
-              <Nav.Link as={Link} to="/" className="ps-4 py-3 active" style={{
-                borderLeft: '4px solid #2E8B57',
-                backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
-              }}>
-                <i className="bi bi-house-door me-2"></i> Главная
-              </Nav.Link>
-              <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
-                borderLeft: '4px solid transparent'
-              }}>
-                <i className="bi bi-journal-text me-2"></i> Рецепты
-              </Nav.Link>
-              <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
-                borderLeft: '4px solid transparent'
-              }}>
-                <i className="bi bi-person me-2"></i> Профиль
-              </Nav.Link>
-              <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
-                borderLeft: '4px solid transparent'
-              }}>
-                <i className="bi bi-search me-2"></i> Поиск продуктов
-              </Nav.Link>
-              <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
-                borderLeft: '4px solid transparent'
-              }}>
-                <i className="bi bi-search me-2"></i> AI Сканер
-              </Nav.Link>
-              <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
-                borderLeft: '4px solid transparent'
-              }}>
-                <i className="bi bi-gear me-2"></i> Настройки
-              </Nav.Link>
-            </Nav>
-
-            {user && (
-              <div className="p-4 mt-4">
-                <Card className="border-0 shadow-sm" style={{ 
-                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#ffffff',
-                  borderRadius: '12px',
-                  overflow: 'hidden'
+        {window.innerWidth > 768 ? (
+          <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
+            minHeight: 'calc(100vh - 60px)', 
+            backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
+            position: 'sticky',
+            top: '60px',
+            height: 'calc(100vh - 60px)',
+            overflowY: 'auto'
+          }}>
+            <div className="py-4">
+              {user && (
+                <div className="text-center mb-4 d-block d-md-none">
+                  {user.profile_picture ? (
+                    <Image 
+                      src={`https://back-c6rh.onrender.com${user.profile_picture}`} 
+                      roundedCircle 
+                      width={60} 
+                      height={60} 
+                      className="mb-2 border"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <div 
+                      className="rounded-circle d-flex align-items-center justify-content-center text-white mx-auto mb-2"
+                      style={{ 
+                        width: 60, 
+                        height: 60, 
+                        background: 'linear-gradient(135deg, #4682B4, #2E8B57)',
+                        fontSize: '1.5rem' 
+                      }}
+                    >
+                      {user.full_name ? user.full_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <p className="m-0" style={{ color: theme === 'dark' ? '#e0e0e0' : '#333333' }}>
+                    {user.full_name || user.email}
+                  </p>
+                </div>
+              )}
+              
+              <Nav className="flex-column">
+                <Nav.Link as={Link} to="/" className="ps-4 py-3 active" style={{
+                  borderLeft: '4px solid #2E8B57',
+                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
                 }}>
-                  <Card.Body className="p-0">
-                    <div className="p-3" style={{
-                      background: 'linear-gradient(135deg, #2E8B57, #4682B4)',
-                    }}>
-                      <h6 className="m-0 text-white">Мой прогресс</h6>
-                    </div>
-                    <div className="p-3">
-                      <div className="d-flex justify-content-between mb-2">
-                        <span style={{ color: theme === 'dark' ? '#ccc' : '#666' }}>Текущий вес:</span>
-                        <span style={{ fontWeight: 'bold' }}>{user.weight || '—'} кг</span>
+                  <i className="bi bi-house-door me-2"></i> Главная
+                </Nav.Link>
+                <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-journal-text me-2"></i> Рецепты
+                </Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-person me-2"></i> Профиль
+                </Nav.Link>
+                <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> Поиск продуктов
+                </Nav.Link>
+                <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> AI Сканер
+                </Nav.Link>
+                <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-gear me-2"></i> Настройки
+                </Nav.Link>
+              </Nav>
+
+              {user && (
+                <div className="p-4 mt-4">
+                  <Card className="border-0 shadow-sm" style={{ 
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#ffffff',
+                    borderRadius: '12px',
+                    overflow: 'hidden'
+                  }}>
+                    <Card.Body className="p-0">
+                      <div className="p-3" style={{
+                        background: 'linear-gradient(135deg, #2E8B57, #4682B4)',
+                      }}>
+                        <h6 className="m-0 text-white">Мой прогресс</h6>
                       </div>
-                      <div className="d-flex justify-content-between">
-                        <span style={{ color: theme === 'dark' ? '#ccc' : '#666' }}>Целевой вес:</span>
-                        <span style={{ fontWeight: 'bold' }}>{user.goal_weight || '—'} кг</span>
+                      <div className="p-3">
+                        <div className="d-flex justify-content-between mb-2">
+                          <span style={{ color: theme === 'dark' ? '#ccc' : '#666' }}>Текущий вес:</span>
+                          <span style={{ fontWeight: 'bold' }}>{user.weight || '—'} кг</span>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                          <span style={{ color: theme === 'dark' ? '#ccc' : '#666' }}>Целевой вес:</span>
+                          <span style={{ fontWeight: 'bold' }}>{user.goal_weight || '—'} кг</span>
+                        </div>
                       </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </div>
-            )}
-          </div>
-        </Col>
+                    </Card.Body>
+                  </Card>
+                </div>
+              )}
+            </div>
+          </Col>
+        ) : (
+          <Nav className="mobile-nav d-flex flex-row justify-content-around">
+            <Nav.Link as={Link} to="/" className="flex-fill">
+              <i className="bi bi-house-door"></i>
+              <span>Главная</span>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/recipes" className="flex-fill">
+              <i className="bi bi-journal-text"></i>
+              <span>Рецепты</span>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/profile" className="flex-fill">
+              <i className="bi bi-person"></i>
+              <span>Профиль</span>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/settings" className="flex-fill">
+              <i className="bi bi-gear"></i>
+              <span>Настройки</span>
+            </Nav.Link>
+          </Nav>
+        )}
 
         <Col xs={12} md={9} lg={10} className="p-4">
           <div className="d-flex justify-content-between align-items-center mb-4">
