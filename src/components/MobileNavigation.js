@@ -28,7 +28,6 @@ const MobileNavigation = ({ activePage, theme }) => {
         <i className="bi bi-chat-dots"></i>
         <span>Чат</span>
       </Nav.Link>
-      
       <Nav.Link as={Link} to="/settings" className={`flex-fill ${activePage === 'settings' ? 'active' : ''}`}>
         <i className="bi bi-gear"></i>
         <span>Настройки</span>
