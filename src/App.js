@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import AiScannerPage from './pages/AiScannerPage';
+import ChatPage from './pages/ChatPage';
 import CreateRecipePage from './pages/CreateRecipePage';
 import EditRecipePage from './pages/EditRecipePage';
 import HomePage from './pages/HomePage';
@@ -127,6 +128,7 @@ const App = () => {
                   <Route path="/product-search" component={withAuth(ProductSearchPage)} />
                   <Route path="/ai-scanner" component={withAuth(AiScannerPage)} />
                   <Route path="/settings" component={withAuth(SettingsPage)} />
+                  <Route path="/chat" component={withAuth(ChatPage)} />
                   <Route path="/" component={withAuth(HomePage)} />
                 </Switch>
               )}
