@@ -2,7 +2,9 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Container, Form, Image, ListGroup, Modal, Nav, Row, Spinner } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
+import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
+import useWindowSize from '../hooks/useWindowSize';
 
 const ProductSearchPage = () => {
   const [productName, setProductName] = useState('');
@@ -19,9 +21,11 @@ const ProductSearchPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  
-  const history = useHistory(); 
+
+  const history = useHistory();
   const { theme } = useContext(ThemeContext);
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -43,16 +47,16 @@ const ProductSearchPage = () => {
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
-    
+
     if (!productName || !productNumber || !productImage) {
       setError('Пожалуйста, заполните все поля и выберите изображение');
       return;
     }
-    
+
     try {
       setLoading(true);
       setError('');
-      
+
       const formData = new FormData();
       formData.append('name', productName);
       formData.append('number', productNumber);
@@ -71,9 +75,9 @@ const ProductSearchPage = () => {
       setProductNumber('');
       setProductImage(null);
       document.getElementById('formFile').value = '';
-      
+
       setShowModal(false);
-      
+
       setTimeout(() => setSuccess(''), 3000);
     } catch (error) {
       console.error('Ошибка при добавлении продукта:', error);
@@ -85,24 +89,24 @@ const ProductSearchPage = () => {
 
   const handleDeleteProduct = async () => {
     if (!productToDelete) return;
-    
+
     try {
       setDeleteLoading(true);
-      
+
       await axios.delete(`https://back-c6rh.onrender.com/products/${productToDelete.id}`, {
         withCredentials: true
       });
-      
+
       setProducts(products.filter(product => product.id !== productToDelete.id));
-      
+
       if (selectedProducts.includes(productToDelete.name)) {
         setSelectedProducts(selectedProducts.filter(p => p !== productToDelete.name));
       }
-      
+
       setSuccess('Продукт успешно удален');
-      
+
       setTimeout(() => setSuccess(''), 3000);
-      
+
       setShowDeleteModal(false);
       setProductToDelete(null);
     } catch (error) {
@@ -118,7 +122,7 @@ const ProductSearchPage = () => {
       setError('Пожалуйста, выберите хотя бы один продукт');
       return;
     }
-    
+
     try {
       setSearchLoading(true);
       setError('');
@@ -126,7 +130,7 @@ const ProductSearchPage = () => {
         withCredentials: true
       });
       setRecipes(response.data);
-      
+
       if (response.data.length === 0) {
         setError('По выбранным продуктам не найдено рецептов');
       }
@@ -142,7 +146,7 @@ const ProductSearchPage = () => {
     if (event && event.target.closest('.delete-btn')) {
       return;
     }
-    
+
     if (selectedProducts.includes(product.name)) {
       setSelectedProducts(selectedProducts.filter((p) => p !== product.name));
     } else {
@@ -185,11 +189,11 @@ const ProductSearchPage = () => {
 
   return (
     <Container fluid className="px-0">
-      <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
+      <Row className="m-0 py-3 border-bottom shadow-sm mobile-header" style={{
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
         top: 0,
-        zIndex: 1000 
+        zIndex: 1000
       }}>
         <Col xs={12} className="d-flex align-items-center">
           <h1 className="m-0">
@@ -201,235 +205,246 @@ const ProductSearchPage = () => {
         </Col>
       </Row>
 
-      <Row className="m-0">
-        <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
-          minHeight: 'calc(100vh - 60px)', 
-          backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
-          position: 'sticky',
-          top: '60px',
-          height: 'calc(100vh - 60px)',
-          overflowY: 'auto'
-        }}>
-          <Nav className="flex-column py-4">
-            <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
+      <div className={`${isMobile ? 'mobile-content' : ''}`}>
+        <Row className="m-0">
+          {!isMobile && (
+            <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{
+              minHeight: 'calc(100vh - 60px)',
+              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
+              position: 'sticky',
+              top: '60px',
+              height: 'calc(100vh - 60px)',
+              overflowY: 'auto'
             }}>
-              <i className="bi bi-house-door me-2"></i> Главная
-            </Nav.Link>
-            <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-journal-text me-2"></i> Рецепты
-            </Nav.Link>
-            <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-person me-2"></i> Профиль
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product-search" className="ps-4 py-3 active" style={{
-              borderLeft: '4px solid #2E8B57',
-              backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
-            }}>
-              <i className="bi bi-search me-2"></i> Поиск продуктов
-            </Nav.Link>
-            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-search me-2"></i> AI Сканер
-            </Nav.Link>
-            <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-gear me-2"></i> Настройки
-            </Nav.Link>
-          </Nav>
-        </Col>
+              <Nav className="flex-column py-4">
+                <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-house-door me-2"></i> Главная
+                </Nav.Link>
+                <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-journal-text me-2"></i> Рецепты
+                </Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-person me-2"></i> Профиль
+                </Nav.Link>
+                <Nav.Link as={Link} to="/product-search" className="ps-4 py-3 active" style={{
+                  borderLeft: '4px solid #2E8B57',
+                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
+                }}>
+                  <i className="bi bi-search me-2"></i> Поиск продуктов
+                </Nav.Link>
+                <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> AI Сканер
+                </Nav.Link>
+                <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-gear me-2"></i> Настройки
+                </Nav.Link>
+              </Nav>
+            </Col>
+          )}
 
-        <Col xs={12} md={9} lg={10} className="p-4">
-          <Row className="mb-4 align-items-center">
-            <Col>
-              <h1 className="mb-0">Поиск рецептов по продуктам</h1>
-            </Col>
-            <Col xs="auto">
-              <Button 
-                variant="primary" 
-                onClick={openAddProductModal}
-                className="d-flex align-items-center"
-              >
-                <i className="bi bi-plus-circle me-2"></i> Добавить продукт
-              </Button>
-            </Col>
-          </Row>
-          
-          {success && <Alert variant="success" className="mb-4">{success}</Alert>}
-          {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
-        
-          <Row>
-            <Col lg={12} className="mb-4">
-              <Card 
-                className="shadow-sm"
-                style={{
-                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
-                  borderColor: theme === 'dark' ? '#444' : '#dee2e6',
-                  color: theme === 'dark' ? '#fff' : '#212529'
-                }}
-              >
-                <Card.Header className="bg-success text-white d-flex justify-content-between align-items-center">
-                  <h4 className="mb-0">Выберите продукты для поиска</h4>
-                  <Badge bg="light" text="dark" className="px-3 py-2">
-                    Выбрано: {selectedProducts.length}
-                  </Badge>
-                </Card.Header>
-                <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                  {loading ? (
-                    <div className="text-center py-5">
-                      <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Загрузка...</span>
-                      </Spinner>
-                      <p className="mt-2">Загрузка продуктов...</p>
-                    </div>
-                  ) : products.length === 0 ? (
-                    <Alert variant="info">
-                      Список продуктов пуст. Добавьте новые продукты, нажав кнопку "Добавить продукт".
-                    </Alert>
-                  ) : (
-                    <ListGroup>
-                      {products.map((product) => (
-                        <ListGroup.Item 
-                          key={product.id}
-                          className="d-flex align-items-center justify-content-between py-3"
-                          action
-                          active={selectedProducts.includes(product.name)}
-                          onClick={(e) => toggleProductSelection(product, e)}
-                          style={{
-                            backgroundColor: selectedProducts.includes(product.name) 
-                              ? (theme === 'dark' ? '#375a7f' : '#d1e7dd') 
-                              : (theme === 'dark' ? '#333' : '#fff'),
-                            color: selectedProducts.includes(product.name) 
-                              ? (theme === 'dark' ? '#fff' : '#0f5132') 
-                              : (theme === 'dark' ? '#fff' : '#212529'),
-                            border: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
-                          }}
-                        >
-                          <div className="d-flex align-items-center">
-                            <Form.Check 
-                              type="checkbox"
-                              checked={selectedProducts.includes(product.name)}
-                              onChange={() => {}}
-                              className="me-3"
-                            />
-                            {product.image && (
-                              <Image
-                                src={`https://back-c6rh.onrender.com${product.image}`}
-                                alt={product.name}
-                                width={50}
-                                height={50}
-                                className="me-3 object-fit-cover rounded"
-                              />
-                            )}
-                            <div>
-                              <h5 className="mb-0">{product.name}</h5>
-                              <small className="text-muted">{product.number}</small>
-                            </div>
-                          </div>
-                          <Button 
-                            variant="outline-danger" 
-                            size="sm"
-                            className="delete-btn"
-                            onClick={(e) => openDeleteConfirmModal(product, e)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </Button>
-                        </ListGroup.Item>
-                      ))}
-                    </ListGroup>
-                  )}
-                </Card.Body>
-                <Card.Footer>
-                  <div className="d-grid">
-                    <Button 
-                      variant="success" 
-                      onClick={handleSearchRecipes}
-                      disabled={selectedProducts.length === 0 || searchLoading}
-                      size="lg"
-                    >
-                      {searchLoading ? (
-                        <>
-                          <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
-                          Поиск рецептов...
-                        </>
-                      ) : (
-                        'Найти рецепты по выбранным продуктам'
-                      )}
-                    </Button>
-                  </div>
-                </Card.Footer>
-              </Card>
-            </Col>
-          </Row>
-          
-          <h2 className="mt-5 mb-4">Результаты поиска</h2>
-          {recipes.length === 0 && !error && !searchLoading ? (
-            <Alert variant="info">
-              Выберите продукты и нажмите кнопку поиска, чтобы найти подходящие рецепты.
-            </Alert>
-          ) : (
-            <Row xs={1} md={2} lg={3} className="g-4">
-              {recipes.map((recipe) => (
-                <Col key={recipe.id}>
-                  <Card 
-                    className="h-100 shadow-sm recipe-card"
-                    onClick={() => history.push(`/recipes/${recipe.id}`)}
+          <Col xs={12} md={isMobile ? 12 : 9} lg={isMobile ? 12 : 10}
+            className={`${isMobile ? 'px-3' : 'p-4'}`}>
+            <div className="mobile-search-container">
+              <Row className="mb-4 align-items-center">
+                <Col>
+                  <h1 className="mb-0">Поиск рецептов по продуктам</h1>
+                </Col>
+                <Col xs="auto">
+                  <Button
+                    variant="primary"
+                    onClick={openAddProductModal}
+                    className="d-flex align-items-center"
+                  >
+                    <i className="bi bi-plus-circle me-2"></i> Добавить продукт
+                  </Button>
+                </Col>
+              </Row>
+
+              {success && <Alert variant="success" className="mb-4">{success}</Alert>}
+              {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
+            </div>
+
+            <div className="mobile-product-list">
+              <Row>
+                <Col lg={12} className="mb-4">
+                  <Card
+                    className="shadow-sm"
                     style={{
                       backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
                       borderColor: theme === 'dark' ? '#444' : '#dee2e6',
-                      color: theme === 'dark' ? '#fff' : '#212529',
-                      cursor: 'pointer',
-                      transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+                      color: theme === 'dark' ? '#fff' : '#212529'
                     }}
                   >
-                    {recipe.image && (
-                      <div className="position-relative" style={{ height: '180px', overflow: 'hidden' }}>
-                        <Card.Img 
-                          variant="top" 
-                          src={`https://back-c6rh.onrender.com${recipe.image}`} 
-                          alt={recipe.name}
-                          className="object-fit-cover w-100 h-100"
-                        />
-                        <div 
-                          className="position-absolute top-0 end-0 p-2 m-2 rounded" 
-                          style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white' }}
-                        >
-                          <i className="bi bi-clock me-1"></i> {recipe.cooking_time} мин
+                    <Card.Header className="bg-success text-white d-flex justify-content-between align-items-center">
+                      <h4 className="mb-0">Выберите продукты для поиска</h4>
+                      <Badge bg="light" text="dark" className="px-3 py-2">
+                        Выбрано: {selectedProducts.length}
+                      </Badge>
+                    </Card.Header>
+                    <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                      {loading ? (
+                        <div className="text-center py-5">
+                          <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Загрузка...</span>
+                          </Spinner>
+                          <p className="mt-2">Загрузка продуктов...</p>
                         </div>
-                      </div>
-                    )}
-                    <Card.Body>
-                      <Card.Title>{recipe.name}</Card.Title>
-                      <Card.Text className="text-truncate">
-                        {recipe.description}
-                      </Card.Text>
+                      ) : products.length === 0 ? (
+                        <Alert variant="info">
+                          Список продуктов пуст. Добавьте новые продукты, нажав кнопку "Добавить продукт".
+                        </Alert>
+                      ) : (
+                        <ListGroup>
+                          {products.map((product) => (
+                            <ListGroup.Item
+                              key={product.id}
+                              className="d-flex align-items-center justify-content-between py-3"
+                              action
+                              active={selectedProducts.includes(product.name)}
+                              onClick={(e) => toggleProductSelection(product, e)}
+                              style={{
+                                backgroundColor: selectedProducts.includes(product.name)
+                                  ? (theme === 'dark' ? '#375a7f' : '#d1e7dd')
+                                  : (theme === 'dark' ? '#333' : '#fff'),
+                                color: selectedProducts.includes(product.name)
+                                  ? (theme === 'dark' ? '#fff' : '#0f5132')
+                                  : (theme === 'dark' ? '#fff' : '#212529'),
+                                border: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
+                              }}
+                            >
+                              <div className="d-flex align-items-center">
+                                <Form.Check
+                                  type="checkbox"
+                                  checked={selectedProducts.includes(product.name)}
+                                  onChange={() => { }}
+                                  className="me-3"
+                                />
+                                {product.image && (
+                                  <Image
+                                    src={`https://back-c6rh.onrender.com${product.image}`}
+                                    alt={product.name}
+                                    width={50}
+                                    height={50}
+                                    className="me-3 object-fit-cover rounded"
+                                  />
+                                )}
+                                <div>
+                                  <h5 className="mb-0">{product.name}</h5>
+                                  <small className="text-muted">{product.number}</small>
+                                </div>
+                              </div>
+                              <Button
+                                variant="outline-danger"
+                                size="sm"
+                                className="delete-btn"
+                                onClick={(e) => openDeleteConfirmModal(product, e)}
+                              >
+                                <i className="bi bi-trash"></i>
+                              </Button>
+                            </ListGroup.Item>
+                          ))}
+                        </ListGroup>
+                      )}
                     </Card.Body>
-                    <Card.Footer className="d-flex justify-content-between align-items-center"
-                      style={{
-                        backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
-                        borderTop: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
-                      }}
-                    >
-                      <small className="text-muted">
-                        <i className="bi bi-fire me-1"></i> {recipe.calories} ккал
-                      </small>
-                      <small className="text-muted">
-                        <i className="bi bi-people me-1"></i> {recipe.serving} порц.
-                      </small>
+                    <Card.Footer>
+                      <div className="d-grid">
+                        <Button
+                          variant="success"
+                          onClick={handleSearchRecipes}
+                          disabled={selectedProducts.length === 0 || searchLoading}
+                          size="lg"
+                        >
+                          {searchLoading ? (
+                            <>
+                              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                              Поиск рецептов...
+                            </>
+                          ) : (
+                            'Найти рецепты по выбранным продуктам'
+                          )}
+                        </Button>
+                      </div>
                     </Card.Footer>
                   </Card>
                 </Col>
-              ))}
-            </Row>
-          )}
-        </Col>
-      </Row>
+              </Row>
+            </div>
+
+            <h2 className="mt-5 mb-4">Результаты поиска</h2>
+            {recipes.length === 0 && !error && !searchLoading ? (
+              <Alert variant="info">
+                Выберите продукты и нажмите кнопку поиска, чтобы найти подходящие рецепты.
+              </Alert>
+            ) : (
+              <Row xs={1} md={2} lg={3} className="g-4">
+                {recipes.map((recipe) => (
+                  <Col key={recipe.id}>
+                    <Card
+                      className="h-100 shadow-sm recipe-card"
+                      onClick={() => history.push(`/recipes/${recipe.id}`)}
+                      style={{
+                        backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
+                        borderColor: theme === 'dark' ? '#444' : '#dee2e6',
+                        color: theme === 'dark' ? '#fff' : '#212529',
+                        cursor: 'pointer',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+                      }}
+                    >
+                      {recipe.image && (
+                        <div className="position-relative" style={{ height: '180px', overflow: 'hidden' }}>
+                          <Card.Img
+                            variant="top"
+                            src={`https://back-c6rh.onrender.com${recipe.image}`}
+                            alt={recipe.name}
+                            className="object-fit-cover w-100 h-100"
+                          />
+                          <div
+                            className="position-absolute top-0 end-0 p-2 m-2 rounded"
+                            style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white' }}
+                          >
+                            <i className="bi bi-clock me-1"></i> {recipe.cooking_time} мин
+                          </div>
+                        </div>
+                      )}
+                      <Card.Body>
+                        <Card.Title>{recipe.name}</Card.Title>
+                        <Card.Text className="text-truncate">
+                          {recipe.description}
+                        </Card.Text>
+                      </Card.Body>
+                      <Card.Footer className="d-flex justify-content-between align-items-center"
+                        style={{
+                          backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
+                          borderTop: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
+                        }}
+                      >
+                        <small className="text-muted">
+                          <i className="bi bi-fire me-1"></i> {recipe.calories} ккал
+                        </small>
+                        <small className="text-muted">
+                          <i className="bi bi-people me-1"></i> {recipe.serving} порц.
+                        </small>
+                      </Card.Footer>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            )}
+          </Col>
+        </Row>
+      </div>
+
+      {isMobile && <MobileNavigation activePage="product-search" theme={theme} />}
 
       <Modal
         show={showModal}
@@ -441,7 +456,7 @@ const ProductSearchPage = () => {
           color: theme === 'dark' ? '#fff' : '#212529'
         }}
       >
-        <Modal.Header 
+        <Modal.Header
           closeButton
           style={{
             backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
@@ -456,7 +471,7 @@ const ProductSearchPage = () => {
           }}
         >
           {error && <Alert variant="danger">{error}</Alert>}
-          
+
           <Form onSubmit={handleAddProduct}>
             <Form.Group className="mb-3">
               <Form.Label>Название продукта</Form.Label>
@@ -471,7 +486,7 @@ const ProductSearchPage = () => {
                 }}
               />
             </Form.Group>
-            
+
             <Form.Group className="mb-3">
               <Form.Label>Количество/Единица измерения</Form.Label>
               <Form.Control
@@ -485,7 +500,7 @@ const ProductSearchPage = () => {
                 }}
               />
             </Form.Group>
-            
+
             <Form.Group className="mb-3">
               <Form.Label>Изображение продукта</Form.Label>
               <Form.Control
@@ -513,8 +528,8 @@ const ProductSearchPage = () => {
           <Button variant="secondary" onClick={closeModal}>
             Отмена
           </Button>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             onClick={handleAddProduct}
             disabled={loading}
           >
@@ -539,7 +554,7 @@ const ProductSearchPage = () => {
           color: theme === 'dark' ? '#fff' : '#212529'
         }}
       >
-        <Modal.Header 
+        <Modal.Header
           closeButton
           style={{
             backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
@@ -566,8 +581,8 @@ const ProductSearchPage = () => {
           <Button variant="secondary" onClick={closeDeleteModal}>
             Отмена
           </Button>
-          <Button 
-            variant="danger" 
+          <Button
+            variant="danger"
             onClick={handleDeleteProduct}
             disabled={deleteLoading}
           >

@@ -2,11 +2,15 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form, Modal, Nav, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
+import useWindowSize from '../hooks/useWindowSize';
 
 const SettingsPage = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
+
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
     newPassword: '',
@@ -103,7 +107,8 @@ const SettingsPage = () => {
 
   return (
     <Container fluid className="px-0">
-      <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
+      {/* Хедер */}
+      <Row className="m-0 py-3 border-bottom shadow-sm mobile-header" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
         top: 0,
@@ -119,58 +124,61 @@ const SettingsPage = () => {
         </Col>
       </Row>
 
-      <Row className="m-0">
-        <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
-          minHeight: 'calc(100vh - 60px)', 
-          backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
-          position: 'sticky',
-          top: '60px',
-          height: 'calc(100vh - 60px)',
-          overflowY: 'auto'
-        }}>
-          <Nav className="flex-column py-4">
-            <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
+      <div className={`${isMobile ? 'mobile-content' : ''}`}>
+        <Row className="m-0">
+          {!isMobile && (
+            <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
+              minHeight: 'calc(100vh - 60px)', 
+              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
+              position: 'sticky',
+              top: '60px',
+              height: 'calc(100vh - 60px)',
+              overflowY: 'auto'
             }}>
-              <i className="bi bi-house-door me-2"></i> Главная
-            </Nav.Link>
-            <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-journal-text me-2"></i> Рецепты
-            </Nav.Link>
-            <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-person me-2"></i> Профиль
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-search me-2"></i> Поиск продуктов
-            </Nav.Link>
-            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-search me-2"></i> AI Сканер
-            </Nav.Link>
-            <Nav.Link as={Link} to="/settings" className="ps-4 py-3 active" style={{
-              borderLeft: '4px solid #2E8B57',
-              backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
-            }}>
-              <i className="bi bi-gear me-2"></i> Настройки
-            </Nav.Link>
-          </Nav>
-        </Col>
+              <Nav className="flex-column py-4">
+                <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-house-door me-2"></i> Главная
+                </Nav.Link>
+                <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-journal-text me-2"></i> Рецепты
+                </Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-person me-2"></i> Профиль
+                </Nav.Link>
+                <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> Поиск продуктов
+                </Nav.Link>
+                <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> AI Сканер
+                </Nav.Link>
+                <Nav.Link as={Link} to="/settings" className="ps-4 py-3 active" style={{
+                  borderLeft: '4px solid #2E8B57',
+                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
+                }}>
+                  <i className="bi bi-gear me-2"></i> Настройки
+                </Nav.Link>
+              </Nav>
+            </Col>
+          )}
 
-        <Col xs={12} md={9} lg={10} className="p-4">
-          <h1 className="mb-4">Настройки</h1>
-          
-          {success && <Alert variant="success" className="mb-4">{success}</Alert>}
-          
-          <Row>
-            <Col md={6} className="mb-4">
-              <Card className="shadow-sm" style={{ 
+          <Col xs={12} md={isMobile ? 12 : 9} lg={isMobile ? 12 : 10} 
+               className={`${isMobile ? 'px-3' : 'p-4'}`}>
+            <h4 className="mb-3">Настройки</h4>
+            
+            {/* Карточки настроек */}
+            <div className="mobile-settings-cards">
+              {/* Тема */}
+              <Card className="mobile-settings-card shadow-sm" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
                 borderColor: theme === 'dark' ? '#444' : '#dee2e6',
                 color: theme === 'dark' ? '#fff' : '#212529' 
@@ -203,10 +211,9 @@ const SettingsPage = () => {
                   </Form.Group>
                 </Card.Body>
               </Card>
-            </Col>
-            
-            <Col md={6}>
-              <Card className="shadow-sm" style={{ 
+
+              {/* Безопасность */}
+              <Card className="mobile-settings-card shadow-sm" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
                 borderColor: theme === 'dark' ? '#444' : '#dee2e6',
                 color: theme === 'dark' ? '#fff' : '#212529' 
@@ -230,12 +237,9 @@ const SettingsPage = () => {
                   </Button>
                 </Card.Body>
               </Card>
-            </Col>
-          </Row>
 
-          <Row className="mt-4">
-            <Col md={12}>
-              <Card className="shadow-sm" style={{ 
+              {/* О приложении */}
+              <Card className="mobile-settings-card shadow-sm" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
                 borderColor: theme === 'dark' ? '#444' : '#dee2e6',
                 color: theme === 'dark' ? '#fff' : '#212529' 
@@ -257,10 +261,12 @@ const SettingsPage = () => {
                   </p>
                 </Card.Body>
               </Card>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            </div>
+          </Col>
+        </Row>
+      </div>
+
+      {isMobile && <MobileNavigation activePage="settings" theme={theme} />}
 
       <Modal
         show={showPasswordModal}

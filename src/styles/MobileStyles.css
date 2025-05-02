@@ -30,7 +30,7 @@
 
   .mobile-content {
     padding-top: 60px !important;
-    padding-bottom: 70px !important;
+    padding-bottom: 80px !important;
     margin-bottom: 0 !important;
   }
 
@@ -40,9 +40,9 @@
     left: 0;
     right: 0;
     z-index: 1020;
+    padding: 10px 15px;
     background: var(--mobile-header-bg);
     border-bottom: 1px solid var(--mobile-header-border);
-    padding: 10px !important;
   }
 
   .mobile-form-container {
@@ -98,6 +98,34 @@
 
   .mobile-grid > [class*='col-'] {
     padding: 8px;
+  }
+
+  .mobile-profile-header {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .mobile-profile-image {
+    width: 100px !important;
+    height: 100px !important;
+    margin: 0 auto 15px !important;
+  }
+
+  .mobile-settings-card {
+    margin-bottom: 15px !important;
+  }
+
+  .mobile-product-list {
+    margin: 0 -15px;
+  }
+
+  .mobile-search-container {
+    position: sticky;
+    top: 60px;
+    z-index: 1010;
+    background: var(--mobile-header-bg);
+    padding: 15px;
+    border-bottom: 1px solid var(--mobile-header-border);
   }
 
   .fixed-top {
