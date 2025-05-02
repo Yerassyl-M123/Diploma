@@ -3,11 +3,14 @@ import { useContext, useEffect, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Container, ListGroup, Nav, Row, Spinner } from 'react-bootstrap';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { ThemeContext } from '../contexts/ThemeContext';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const RecipeDetailPage = () => {
   const { id } = useParams();
   const history = useHistory();
   const { theme } = useContext(ThemeContext);
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -140,7 +143,7 @@ const RecipeDetailPage = () => {
 
   return (
     <Container fluid className="px-0">
-      <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
+      <Row className="m-0 py-3 border-bottom shadow-sm mobile-header" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
         top: 0,
@@ -166,290 +169,297 @@ const RecipeDetailPage = () => {
         </Col>
       </Row>
 
-      <Row className="m-0">
-        <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
-          minHeight: 'calc(100vh - 60px)', 
-          backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
-          position: 'sticky',
-          top: '60px',
-          height: 'calc(100vh - 60px)',
-          overflowY: 'auto'
-        }}>
-          <Nav className="flex-column py-4">
-            <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
+      <div className={`${isMobile ? 'mobile-content' : ''}`}>
+        <Row className="m-0">
+          {!isMobile && (
+            <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
+              minHeight: 'calc(100vh - 60px)', 
+              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
+              position: 'sticky',
+              top: '60px',
+              height: 'calc(100vh - 60px)',
+              overflowY: 'auto'
             }}>
-              <i className="bi bi-house-door me-2"></i> Главная
-            </Nav.Link>
-            <Nav.Link as={Link} to="/recipes" className="ps-4 py-3 active" style={{
-              borderLeft: '4px solid #2E8B57',
-              backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
-            }}>
-              <i className="bi bi-journal-text me-2"></i> Рецепты
-            </Nav.Link>
-            <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-person me-2"></i> Профиль
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-search me-2"></i> Поиск продуктов
-            </Nav.Link>
-            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
-                borderLeft: '4px solid transparent'
-              }}>
-                <i className="bi bi-search me-2"></i> AI Сканер
-              </Nav.Link>
-            <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-gear me-2"></i> Настройки
-            </Nav.Link>
-          </Nav>
-        </Col>
-
-        <Col xs={12} md={9} lg={10} className="p-4">
-          {error && (
-            <Alert variant="danger" onClose={() => setError('')} dismissible>
-              {error}
-            </Alert>
+              <Nav className="flex-column py-4">
+                <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-house-door me-2"></i> Главная
+                </Nav.Link>
+                <Nav.Link as={Link} to="/recipes" className="ps-4 py-3 active" style={{
+                  borderLeft: '4px solid #2E8B57',
+                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
+                }}>
+                  <i className="bi bi-journal-text me-2"></i> Рецепты
+                </Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-person me-2"></i> Профиль
+                </Nav.Link>
+                <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> Поиск продуктов
+                </Nav.Link>
+                <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+                    borderLeft: '4px solid transparent'
+                  }}>
+                    <i className="bi bi-search me-2"></i> AI Сканер
+                  </Nav.Link>
+                <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-gear me-2"></i> Настройки
+                </Nav.Link>
+              </Nav>
+            </Col>
           )}
 
-          <div className="mb-4 d-flex justify-content-between align-items-center">
-            <h1>{recipe.name}</h1>
-            <div>
-              {userId && (
-                <Button 
-                  variant={isFavorite ? 'danger' : 'outline-danger'} 
-                  onClick={toggleFavorite}
-                  className="me-2"
-                >
-                  <i className={`bi ${isFavorite ? 'bi-heart-fill' : 'bi-heart'} me-2`}></i>
-                  {isFavorite ? 'В избранном' : 'В избранное'}
-                </Button>
-              )}
-              {userId === recipe.user_id && (
-                <>
-                  <Button variant="outline-primary" onClick={handleEdit} className="me-2">
-                    <i className="bi bi-pencil me-2"></i>Редактировать
-                  </Button>
-                  <Button variant="outline-danger" onClick={handleDelete}>
-                    <i className="bi bi-trash me-2"></i>Удалить
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
+          <Col xs={12} md={isMobile ? 12 : 9} lg={isMobile ? 12 : 10} 
+               className={`${isMobile ? 'mobile-form-container' : 'p-4'}`}>
+            {error && (
+              <Alert variant="danger" onClose={() => setError('')} dismissible>
+                {error}
+              </Alert>
+            )}
 
-          <Row>
-            <Col md={6} className="mb-4">
-              <Card className="shadow-sm border-0" style={{ 
-                backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
-                borderRadius: '12px',
-                overflow: 'hidden'
-              }}>
-                {imageUrl ? (
-                  <div style={{ 
-                    height: '350px', 
-                    backgroundImage: `url(${imageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}></div>
-                ) : (
-                  <div className="d-flex align-items-center justify-content-center" style={{ 
-                    height: '350px', 
-                    backgroundColor: theme === 'dark' ? '#3d3d3d' : '#f5f5f5'
-                  }}>
-                    <i className="bi bi-card-image text-muted" style={{ fontSize: '4rem' }}></i>
-                  </div>
+            <div className={`${isMobile ? 'mobile-buttons' : 'd-flex justify-content-between align-items-center'} mb-4`}>
+              <h1 className="mb-3 mb-md-0">{recipe.name}</h1>
+              <div className={`${isMobile ? 'd-grid gap-2' : ''}`}>
+                {userId && (
+                  <Button 
+                    variant={isFavorite ? 'danger' : 'outline-danger'} 
+                    onClick={toggleFavorite}
+                    className="me-2"
+                  >
+                    <i className={`bi ${isFavorite ? 'bi-heart-fill' : 'bi-heart'} me-2`}></i>
+                    {isFavorite ? 'В избранном' : 'В избранное'}
+                  </Button>
                 )}
-                <Card.Body>
-                  <Card.Text>{recipe.description}</Card.Text>
-                  <div className="d-flex flex-wrap">
-                    <Badge bg="light" text="dark" className="me-2 mb-2 p-2">
-                      <i className="bi bi-clock me-1"></i> Время приготовления: {recipe.cooking_time} мин
-                    </Badge>
-                    <Badge bg="light" text="dark" className="me-2 mb-2 p-2">
-                      <i className="bi bi-people me-1"></i> Порций: {recipe.serving}
-                    </Badge>
-                    <Badge bg="light" text="dark" className="mb-2 p-2">
-                      <i className="bi bi-fire me-1"></i> Калорийность: {recipe.calories || '0'} ккал
-                    </Badge>
-                  </div>
-                </Card.Body>
-              </Card>
+                {userId === recipe.user_id && (
+                  <>
+                    <Button variant="outline-primary" onClick={handleEdit} className="me-2">
+                      <i className="bi bi-pencil me-2"></i>Редактировать
+                    </Button>
+                    <Button variant="outline-danger" onClick={handleDelete}>
+                      <i className="bi bi-trash me-2"></i>Удалить
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
 
-              <Card className="mt-4 shadow-sm border-0" style={{ 
-                backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
-                borderRadius: '12px',
-                overflow: 'hidden'
-              }}>
-                <Card.Header className="bg-primary text-white">
-                  <h5 className="mb-0">Добавить в план питания</h5>
-                </Card.Header>
-                <Card.Body>
-                  <div className="mb-3">
+            <Row>
+              <Col xs={12} md={6} className="mb-4">
+                <Card className="shadow-sm border-0" style={{ 
+                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
+                  borderRadius: '12px',
+                  overflow: 'hidden'
+                }}>
+                  {imageUrl ? (
+                    <div style={{ 
+                      height: '350px', 
+                      backgroundImage: `url(${imageUrl})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}></div>
+                  ) : (
+                    <div className="d-flex align-items-center justify-content-center" style={{ 
+                      height: '350px', 
+                      backgroundColor: theme === 'dark' ? '#3d3d3d' : '#f5f5f5'
+                    }}>
+                      <i className="bi bi-card-image text-muted" style={{ fontSize: '4rem' }}></i>
+                    </div>
+                  )}
+                  <Card.Body>
+                    <Card.Text>{recipe.description}</Card.Text>
+                    <div className="d-flex flex-wrap">
+                      <Badge bg="light" text="dark" className="me-2 mb-2 p-2">
+                        <i className="bi bi-clock me-1"></i> Время приготовления: {recipe.cooking_time} мин
+                      </Badge>
+                      <Badge bg="light" text="dark" className="me-2 mb-2 p-2">
+                        <i className="bi bi-people me-1"></i> Порций: {recipe.serving}
+                      </Badge>
+                      <Badge bg="light" text="dark" className="mb-2 p-2">
+                        <i className="bi bi-fire me-1"></i> Калорийность: {recipe.calories || '0'} ккал
+                      </Badge>
+                    </div>
+                  </Card.Body>
+                </Card>
+
+                <Card className="mt-4 shadow-sm border-0" style={{ 
+                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
+                  borderRadius: '12px',
+                  overflow: 'hidden'
+                }}>
+                  <Card.Header className="bg-primary text-white">
+                    <h5 className="mb-0">Добавить в план питания</h5>
+                  </Card.Header>
+                  <Card.Body>
+                    <div className="mb-3">
+                      <Button 
+                        variant="outline-secondary" 
+                        onClick={() => setShowDatePicker(!showDatePicker)}
+                        className="w-100 mb-2"
+                      >
+                        <i className="bi bi-calendar me-2"></i>
+                        {selectedDate ? new Date(selectedDate).toLocaleDateString() : 'Выберите дату'}
+                      </Button>
+                      
+                      {showDatePicker && (
+                        <div className="mt-2 p-2 border rounded">
+                          <input 
+                            type="date" 
+                            value={selectedDate} 
+                            onChange={(e) => setSelectedDate(e.target.value)}
+                            className="form-control mb-2"
+                          />
+                          <Button 
+                            variant="primary" 
+                            size="sm" 
+                            onClick={() => setShowDatePicker(false)}
+                            className="w-100"
+                          >
+                            Подтвердить
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
                     <Button 
-                      variant="outline-secondary" 
-                      onClick={() => setShowDatePicker(!showDatePicker)}
-                      className="w-100 mb-2"
+                      variant="success" 
+                      onClick={() => setShowMealTypeSelector(!showMealTypeSelector)}
+                      className="w-100"
+                      disabled={addingToMealPlan}
                     >
-                      <i className="bi bi-calendar me-2"></i>
-                      {selectedDate ? new Date(selectedDate).toLocaleDateString() : 'Выберите дату'}
+                      {addingToMealPlan ? (
+                        <>
+                          <Spinner animation="border" size="sm" className="me-2" />
+                          Добавление...
+                        </>
+                      ) : (
+                        <>
+                          <i className="bi bi-plus-circle me-2"></i>
+                          Добавить в план питания
+                        </>
+                      )}
                     </Button>
                     
-                    {showDatePicker && (
-                      <div className="mt-2 p-2 border rounded">
-                        <input 
-                          type="date" 
-                          value={selectedDate} 
-                          onChange={(e) => setSelectedDate(e.target.value)}
-                          className="form-control mb-2"
-                        />
+                    {showMealTypeSelector && (
+                      <div className="mt-3">
+                        <h6>Выберите прием пищи:</h6>
+                        <Button 
+                          variant="warning" 
+                          block 
+                          className="mb-2 w-100" 
+                          onClick={() => handleAddToPlan('breakfast')}
+                        >
+                          <i className="bi bi-cup-hot me-2"></i> Завтрак
+                        </Button>
+                        <Button 
+                          variant="success" 
+                          block 
+                          className="mb-2 w-100" 
+                          onClick={() => handleAddToPlan('lunch')}
+                        >
+                          <i className="bi bi-egg-fried me-2"></i> Обед
+                        </Button>
                         <Button 
                           variant="primary" 
-                          size="sm" 
-                          onClick={() => setShowDatePicker(false)}
-                          className="w-100"
+                          block 
+                          className="mb-2 w-100" 
+                          onClick={() => handleAddToPlan('dinner')}
                         >
-                          Подтвердить
+                          <i className="bi bi-moon me-2"></i> Ужин
+                        </Button>
+                        <Button 
+                          variant="info" 
+                          block 
+                          className="w-100" 
+                          onClick={() => handleAddToPlan('snack')}
+                        >
+                          <i className="bi bi-apple me-2"></i> Перекус
                         </Button>
                       </div>
                     )}
-                  </div>
+                  </Card.Body>
+                </Card>
+              </Col>
 
-                  <Button 
-                    variant="success" 
-                    onClick={() => setShowMealTypeSelector(!showMealTypeSelector)}
-                    className="w-100"
-                    disabled={addingToMealPlan}
-                  >
-                    {addingToMealPlan ? (
-                      <>
-                        <Spinner animation="border" size="sm" className="me-2" />
-                        Добавление...
-                      </>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 shadow-sm border-0" style={{ 
+                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
+                  borderRadius: '12px',
+                  overflow: 'hidden'
+                }}>
+                  <Card.Header className="bg-warning text-dark">
+                    <h5 className="mb-0">Ингредиенты</h5>
+                  </Card.Header>
+                  <ListGroup variant="flush">
+                    {ingredients.length > 0 ? (
+                      ingredients.map((ingredient, index) => (
+                        <ListGroup.Item 
+                          key={index}
+                          style={{ 
+                            backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
+                            color: theme === 'dark' ? '#e0e0e0' : '#333333',
+                            borderColor: theme === 'dark' ? '#444' : '#dee2e6'
+                          }}
+                        >
+                          <i className="bi bi-check-circle-fill me-2 text-success"></i>
+                          {ingredient}
+                        </ListGroup.Item>
+                      ))
                     ) : (
-                      <>
-                        <i className="bi bi-plus-circle me-2"></i>
-                        Добавить в план питания
-                      </>
-                    )}
-                  </Button>
-                  
-                  {showMealTypeSelector && (
-                    <div className="mt-3">
-                      <h6>Выберите прием пищи:</h6>
-                      <Button 
-                        variant="warning" 
-                        block 
-                        className="mb-2 w-100" 
-                        onClick={() => handleAddToPlan('breakfast')}
-                      >
-                        <i className="bi bi-cup-hot me-2"></i> Завтрак
-                      </Button>
-                      <Button 
-                        variant="success" 
-                        block 
-                        className="mb-2 w-100" 
-                        onClick={() => handleAddToPlan('lunch')}
-                      >
-                        <i className="bi bi-egg-fried me-2"></i> Обед
-                      </Button>
-                      <Button 
-                        variant="primary" 
-                        block 
-                        className="mb-2 w-100" 
-                        onClick={() => handleAddToPlan('dinner')}
-                      >
-                        <i className="bi bi-moon me-2"></i> Ужин
-                      </Button>
-                      <Button 
-                        variant="info" 
-                        block 
-                        className="w-100" 
-                        onClick={() => handleAddToPlan('snack')}
-                      >
-                        <i className="bi bi-apple me-2"></i> Перекус
-                      </Button>
-                    </div>
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-
-            <Col md={6}>
-              <Card className="mb-4 shadow-sm border-0" style={{ 
-                backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
-                borderRadius: '12px',
-                overflow: 'hidden'
-              }}>
-                <Card.Header className="bg-warning text-dark">
-                  <h5 className="mb-0">Ингредиенты</h5>
-                </Card.Header>
-                <ListGroup variant="flush">
-                  {ingredients.length > 0 ? (
-                    ingredients.map((ingredient, index) => (
                       <ListGroup.Item 
-                        key={index}
                         style={{ 
                           backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
-                          color: theme === 'dark' ? '#e0e0e0' : '#333333',
-                          borderColor: theme === 'dark' ? '#444' : '#dee2e6'
+                          color: theme === 'dark' ? '#e0e0e0' : '#333333'
                         }}
                       >
-                        <i className="bi bi-check-circle-fill me-2 text-success"></i>
-                        {ingredient}
+                        Ингредиенты не указаны
                       </ListGroup.Item>
-                    ))
-                  ) : (
-                    <ListGroup.Item 
-                      style={{ 
-                        backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
-                        color: theme === 'dark' ? '#e0e0e0' : '#333333'
-                      }}
-                    >
-                      Ингредиенты не указаны
-                    </ListGroup.Item>
-                  )}
-                </ListGroup>
-              </Card>
+                    )}
+                  </ListGroup>
+                </Card>
 
-              <Card className="shadow-sm border-0" style={{ 
-                backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
-                borderRadius: '12px',
-                overflow: 'hidden'
-              }}>
-                <Card.Header className="bg-info text-dark">
-                  <h5 className="mb-0">Способ приготовления</h5>
-                </Card.Header>
-                <Card.Body>
-                  {steps.length > 0 ? (
-                    <ol className="ps-3">
-                      {steps.map((step, index) => (
-                        <li key={index} className="mb-3">
-                          <div className="d-flex">
-                            <div className="me-3">
-                              <Badge pill bg="primary" style={{ width: '24px', height: '24px' }} className="d-flex align-items-center justify-content-center">
-                                {index + 1}
-                              </Badge>
+                <Card className="shadow-sm border-0" style={{ 
+                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#ffffff',
+                  borderRadius: '12px',
+                  overflow: 'hidden'
+                }}>
+                  <Card.Header className="bg-info text-dark">
+                    <h5 className="mb-0">Способ приготовления</h5>
+                  </Card.Header>
+                  <Card.Body>
+                    {steps.length > 0 ? (
+                      <ol className="ps-3">
+                        {steps.map((step, index) => (
+                          <li key={index} className="mb-3">
+                            <div className="d-flex">
+                              <div className="me-3">
+                                <Badge pill bg="primary" style={{ width: '24px', height: '24px' }} className="d-flex align-items-center justify-content-center">
+                                  {index + 1}
+                                </Badge>
+                              </div>
+                              <div>{step}</div>
                             </div>
-                            <div>{step}</div>
-                          </div>
-                        </li>
-                      ))}
-                    </ol>
-                  ) : (
-                    <p>Шаги приготовления не указаны</p>
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+                          </li>
+                        ))}
+                      </ol>
+                    ) : (
+                      <p>Шаги приготовления не указаны</p>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+
+      {isMobile && <MobileNavigation activePage="recipes" theme={theme} />}
     </Container>
   );
 };

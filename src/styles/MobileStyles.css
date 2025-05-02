@@ -5,21 +5,18 @@
     left: 0;
     right: 0;
     background: var(--mobile-nav-bg);
-    z-index: 1000;
+    z-index: 1030;
     border-top: 1px solid var(--mobile-nav-border);
     padding: 8px 0;
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom, 8px);
   }
 
   .mobile-nav .nav-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 8px 0;
-    color: var(--mobile-nav-text);
-    text-decoration: none;
     font-size: 12px;
+    padding: 8px 0;
   }
 
   .mobile-nav .nav-link i {
@@ -32,17 +29,43 @@
   }
 
   .mobile-content {
-    padding-top: 60px;
-    padding-bottom: 80px !important;
-    margin-bottom: 60px;
+    padding-top: 60px !important;
+    padding-bottom: 70px !important;
+    margin-bottom: 0 !important;
   }
 
   .mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    background: var(--mobile-header-bg);
+    border-bottom: 1px solid var(--mobile-header-border);
     padding: 10px !important;
   }
 
+  .mobile-form-container {
+    padding: 15px !important;
+  }
+
   .mobile-card {
-    margin-bottom: 15px;
+    border-radius: 12px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .mobile-image-container {
+    height: 200px !important;
+  }
+
+  .mobile-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mobile-buttons .btn {
+    width: 100%;
   }
 
   .mobile-search {
@@ -70,7 +93,6 @@
   }
 
   .mobile-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
     margin: 0 -8px;
   }
 
@@ -120,6 +142,8 @@
 :root {
   --mobile-nav-bg: #ffffff;
   --mobile-nav-border: #dee2e6;
+  --mobile-header-bg: #ffffff;
+  --mobile-header-border: #dee2e6;
   --mobile-search-bg: #ffffff;
   --mobile-nav-text: #666;
   --mobile-nav-active: #2E8B57;
@@ -128,6 +152,8 @@
 [data-theme='dark'] {
   --mobile-nav-bg: #1a1a1a;
   --mobile-nav-border: #444444;
+  --mobile-header-bg: #1a1a1a;
+  --mobile-header-border: #444444;
   --mobile-search-bg: #1a1a1a;
   --mobile-nav-text: #aaa;
   --mobile-nav-active: #4682B4;
