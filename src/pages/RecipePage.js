@@ -398,12 +398,30 @@ const RecipePage = () => {
                     <p>Создайте первый рецепт или дождитесь, пока другие пользователи добавят свои</p>
                   </div>
                 ) : (
-                  <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-                    {allRecipes.map((recipe) => (
-                      <Col key={recipe.id}>
-                        <RecipeCard recipe={recipe} />
-                      </Col>
-                    ))}
+                  <Row className="m-0">
+                    {window.innerWidth <= 768 && (
+                      <div className="mobile-search">
+                        <Form onSubmit={handleSearch}>
+                          <InputGroup>
+                            <Form.Control
+                              placeholder="Поиск рецептов..."
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <Button variant="primary" type="submit" disabled={isSearching}>
+                              {isSearching ? <Spinner animation="border" size="sm" /> : <i className="bi bi-search"></i>}
+                            </Button>
+                          </InputGroup>
+                        </Form>
+                      </div>
+                    )}
+                    <Row xs={1} sm={2} md={2} lg={3} xl={4} className="g-4 mobile-grid">
+                      {allRecipes.map((recipe) => (
+                        <Col key={recipe.id}>
+                          <RecipeCard recipe={recipe} />
+                        </Col>
+                      ))}
+                    </Row>
                   </Row>
                 )}
               </Tab.Pane>
