@@ -105,7 +105,7 @@ const App = () => {
     <AuthContext.Provider value={{ ...authState, refreshAuth }}>
       <ThemeProvider>
         <Router>
-          <div className={`app-container ${isMobile ? 'mobile-view' : ''}`}>
+        <div className="app-container">
             <main>
               {authState.isLoading ? (
                 <div className="d-flex justify-content-center align-items-center" style={{minHeight: '100vh'}}>
