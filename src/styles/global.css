@@ -1,0 +1,39 @@
+.mobile-view {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@supports (padding: max(0px)) {
+  .mobile-view {
+    padding-bottom: max(env(safe-area-inset-bottom), 60px);
+  }
+}
+
+.mobile-view .container-fluid {
+  padding-left: max(env(safe-area-inset-left), 15px);
+  padding-right: max(env(safe-area-inset-right), 15px);
+}
+
+/* Фикс для iPhone X и новее */
+@supports (padding: max(0px)) {
+  .mobile-nav {
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Улучшенные тач-таргеты для мобильных */
+@media (max-width: 768px) {
+  .btn, 
+  .nav-link,
+  .form-control {
+    min-height: 44px;
+  }
+
+  .card {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .list-group-item {
+    padding: 16px;
+  }
+}
