@@ -193,8 +193,8 @@ const ProductSearchPage = () => {
         <Row className="m-0 py-2" style={{ 
           backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff'
         }}>
-          <Col xs={12} className="d-flex align-items-center justify-content-between">
-            <h1 className="m-0 h4"> {/* Уменьшаем размер заголовка для мобильных */}
+          <Col xs={12} className="d-flex align-items-center">
+            <h1 className="m-0">
               <Link to="/" className="text-decoration-none">
                 <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
                 <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>

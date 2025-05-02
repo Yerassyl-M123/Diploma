@@ -350,7 +350,7 @@ const RecipePage = () => {
             }}
           >
             {isMobile && (
-              <div className="mobile-search-container sticky-top bg-light py-2 px-3">
+              <div className="mobile-search-container">
                 <Form onSubmit={handleSearch}>
                   <InputGroup>
                     <Form.Control
