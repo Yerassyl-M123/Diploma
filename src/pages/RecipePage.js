@@ -241,14 +241,12 @@ const RecipePage = () => {
   }
 
   return (
-    <Container fluid className="px-0">
-      <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
+    <Container fluid className="px-0 pb-5">
+      <Row className="m-0 py-3 border-bottom shadow-sm fixed-top" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
-        position: 'sticky',
-        top: 0,
         zIndex: 1000 
       }}>
-        <Col xs={6} className="d-flex align-items-center">
+        <Col xs={6} md={3} className="d-flex align-items-center">
           <h1 className="m-0">
             <Link to="/" className="text-decoration-none">
               <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
@@ -256,240 +254,296 @@ const RecipePage = () => {
             </Link>
           </h1>
         </Col>
-        <Col xs={6} className="d-flex justify-content-end">
-          <Form onSubmit={handleSearch} className="d-flex">
-            <InputGroup>
-              <Form.Control
-                placeholder="Поиск рецептов..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ 
-                  backgroundColor: theme === 'dark' ? '#333' : '#fff',
-                  color: theme === 'dark' ? '#fff' : '#333',
-                  borderTopRightRadius: 0,
-                  borderBottomRightRadius: 0
-                }}
-              />
-              <Button 
-                variant="primary" 
-                type="submit"
-                disabled={isSearching}
-                style={{
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0
-                }}
-              >
-                {isSearching ? <Spinner animation="border" size="sm" /> : <i className="bi bi-search"></i>}
-              </Button>
-            </InputGroup>
-          </Form>
-        </Col>
+        {window.innerWidth > 768 && (
+          <Col md={9} className="d-flex justify-content-end">
+            <Form onSubmit={handleSearch} className="d-flex w-50">
+              <InputGroup>
+                <Form.Control
+                  placeholder="Поиск рецептов..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ 
+                    backgroundColor: theme === 'dark' ? '#333' : '#fff',
+                    color: theme === 'dark' ? '#fff' : '#333'
+                  }}
+                />
+                <Button 
+                  variant="primary" 
+                  type="submit"
+                  disabled={isSearching}
+                >
+                  {isSearching ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (
+                    <i className="bi bi-search"></i>
+                  )}
+                </Button>
+              </InputGroup>
+            </Form>
+          </Col>
+        )}
       </Row>
 
-      <Row className="m-0">
-        <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
-          minHeight: 'calc(100vh - 60px)', 
-          backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
-          position: 'sticky',
-          top: '60px',
-          height: 'calc(100vh - 60px)',
-          overflowY: 'auto'
-        }}>
-          <Nav className="flex-column py-4">
-            <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
+      <div style={{ paddingTop: '60px' }}>
+        <Row className="m-0">
+          {window.innerWidth > 768 && (
+            <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
+              position: 'fixed',
+              top: '60px',
+              bottom: 0,
+              overflowY: 'auto',
+              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa'
             }}>
-              <i className="bi bi-house-door me-2"></i> Главная
-            </Nav.Link>
-            <Nav.Link as={Link} to="/recipes" className="ps-4 py-3 active" style={{
-              borderLeft: '4px solid #2E8B57',
-              backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
-            }}>
-              <i className="bi bi-journal-text me-2"></i> Рецепты
-            </Nav.Link>
-            <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-person me-2"></i> Профиль
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-search me-2"></i> Поиск продуктов
-            </Nav.Link>
-            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
-                borderLeft: '4px solid transparent'
-              }}>
-                <i className="bi bi-search me-2"></i> AI Сканер
-            </Nav.Link>
-            <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-gear me-2"></i> Настройки
-            </Nav.Link>
-          </Nav>
-        </Col>
-
-        <Col xs={12} md={9} lg={10} className="p-4">
-          {error && (
-            <Alert variant="danger" onClose={() => setError('')} dismissible>
-              {error}
-            </Alert>
+              <Nav className="flex-column py-4">
+                <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-house-door me-2"></i> Главная
+                </Nav.Link>
+                <Nav.Link as={Link} to="/recipes" className="ps-4 py-3 active" style={{
+                  borderLeft: '4px solid #2E8B57',
+                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
+                }}>
+                  <i className="bi bi-journal-text me-2"></i> Рецепты
+                </Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-person me-2"></i> Профиль
+                </Nav.Link>
+                <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> Поиск продуктов
+                </Nav.Link>
+                <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
+                    borderLeft: '4px solid transparent'
+                  }}>
+                    <i className="bi bi-search me-2"></i> AI Сканер
+                </Nav.Link>
+                <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-gear me-2"></i> Настройки
+                </Nav.Link>
+              </Nav>
+            </Col>
           )}
 
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="m-0">Рецепты</h2>
-            <Button 
-              variant="primary" 
-              onClick={handleCreateRecipe}
-              className="d-flex align-items-center"
-            >
-              <i className="bi bi-plus-circle me-2"></i> Создать рецепт
-            </Button>
-          </div>
+          <Col xs={12} md={window.innerWidth > 768 ? 9 : 12} lg={window.innerWidth > 768 ? 10 : 12} 
+               className="p-4"
+               style={{ 
+                 marginLeft: window.innerWidth > 768 ? '25%' : 0,
+                 marginBottom: window.innerWidth <= 768 ? '60px' : 0
+               }}>
+            {window.innerWidth <= 768 && (
+              <Form onSubmit={handleSearch} className="mb-4">
+                <InputGroup>
+                  <Form.Control
+                    placeholder="Поиск рецептов..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{ 
+                      backgroundColor: theme === 'dark' ? '#333' : '#fff',
+                      color: theme === 'dark' ? '#fff' : '#333'
+                    }}
+                  />
+                  <Button 
+                    variant="primary" 
+                    type="submit"
+                    disabled={isSearching}
+                  >
+                    {isSearching ? (
+                      <Spinner animation="border" size="sm" />
+                    ) : (
+                      <i className="bi bi-search"></i>
+                    )}
+                  </Button>
+                </InputGroup>
+              </Form>
+            )}
 
-          <Tab.Container activeKey={activeTab} onSelect={(k) => setActiveTab(k)}>
-            <Nav variant="tabs" className="mb-4">
-              <Nav.Item>
-                <Nav.Link eventKey="all" style={{ 
-                  color: activeTab === 'all' ? (theme === 'dark' ? '#fff' : '#333') : (theme === 'dark' ? '#aaa' : '#6c757d'),
-                  backgroundColor: activeTab === 'all' ? (theme === 'dark' ? '#2a2a2a' : '#fff') : 'transparent',
-                  border: activeTab === 'all' ? `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}` : 'none'
-                }}>
-                  Все рецепты
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="my" style={{ 
-                  color: activeTab === 'my' ? (theme === 'dark' ? '#fff' : '#333') : (theme === 'dark' ? '#aaa' : '#6c757d'),
-                  backgroundColor: activeTab === 'my' ? (theme === 'dark' ? '#2a2a2a' : '#fff') : 'transparent',
-                  border: activeTab === 'my' ? `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}` : 'none'
-                }}>
-                  Мои рецепты
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="favorite" style={{ 
-                  color: activeTab === 'favorite' ? (theme === 'dark' ? '#fff' : '#333') : (theme === 'dark' ? '#aaa' : '#6c757d'),
-                  backgroundColor: activeTab === 'favorite' ? (theme === 'dark' ? '#2a2a2a' : '#fff') : 'transparent',
-                  border: activeTab === 'favorite' ? `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}` : 'none'
-                }}>
-                  Избранное
-                </Nav.Link>
-              </Nav.Item>
-              {activeTab === 'search' && (
+            {error && (
+              <Alert variant="danger" onClose={() => setError('')} dismissible>
+                {error}
+              </Alert>
+            )}
+
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h2 className="m-0">Рецепты</h2>
+              <Button 
+                variant="primary" 
+                onClick={handleCreateRecipe}
+                className="d-flex align-items-center"
+              >
+                <i className="bi bi-plus-circle me-2"></i> Создать рецепт
+              </Button>
+            </div>
+
+            <Tab.Container activeKey={activeTab} onSelect={(k) => setActiveTab(k)}>
+              <Nav variant="tabs" className="mb-4">
                 <Nav.Item>
-                  <Nav.Link eventKey="search" style={{ 
-                    color: theme === 'dark' ? '#fff' : '#333',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#fff',
-                    border: `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}`
+                  <Nav.Link eventKey="all" style={{ 
+                    color: activeTab === 'all' ? (theme === 'dark' ? '#fff' : '#333') : (theme === 'dark' ? '#aaa' : '#6c757d'),
+                    backgroundColor: activeTab === 'all' ? (theme === 'dark' ? '#2a2a2a' : '#fff') : 'transparent',
+                    border: activeTab === 'all' ? `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}` : 'none'
                   }}>
-                    Результаты поиска
+                    Все рецепты
                   </Nav.Link>
                 </Nav.Item>
-              )}
-            </Nav>
+                <Nav.Item>
+                  <Nav.Link eventKey="my" style={{ 
+                    color: activeTab === 'my' ? (theme === 'dark' ? '#fff' : '#333') : (theme === 'dark' ? '#aaa' : '#6c757d'),
+                    backgroundColor: activeTab === 'my' ? (theme === 'dark' ? '#2a2a2a' : '#fff') : 'transparent',
+                    border: activeTab === 'my' ? `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}` : 'none'
+                  }}>
+                    Мои рецепты
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="favorite" style={{ 
+                    color: activeTab === 'favorite' ? (theme === 'dark' ? '#fff' : '#333') : (theme === 'dark' ? '#aaa' : '#6c757d'),
+                    backgroundColor: activeTab === 'favorite' ? (theme === 'dark' ? '#2a2a2a' : '#fff') : 'transparent',
+                    border: activeTab === 'favorite' ? `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}` : 'none'
+                  }}>
+                    Избранное
+                  </Nav.Link>
+                </Nav.Item>
+                {activeTab === 'search' && (
+                  <Nav.Item>
+                    <Nav.Link eventKey="search" style={{ 
+                      color: theme === 'dark' ? '#fff' : '#333',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#fff',
+                      border: `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}`
+                    }}>
+                      Результаты поиска
+                    </Nav.Link>
+                  </Nav.Item>
+                )}
+              </Nav>
 
-            <Tab.Content>
-              <Tab.Pane eventKey="all">
-                {allRecipes.length === 0 ? (
-                  <div className="text-center py-5">
-                    <i className="bi bi-journal-x mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
-                    <h4>Пока нет рецептов</h4>
-                    <p>Создайте первый рецепт или дождитесь, пока другие пользователи добавят свои</p>
-                  </div>
-                ) : (
-                  <Row className="m-0">
-                    {window.innerWidth <= 768 && (
-                      <div className="mobile-search">
-                        <Form onSubmit={handleSearch}>
-                          <InputGroup>
-                            <Form.Control
-                              placeholder="Поиск рецептов..."
-                              value={searchQuery}
-                              onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                            <Button variant="primary" type="submit" disabled={isSearching}>
-                              {isSearching ? <Spinner animation="border" size="sm" /> : <i className="bi bi-search"></i>}
-                            </Button>
-                          </InputGroup>
-                        </Form>
-                      </div>
-                    )}
-                    <Row xs={1} sm={2} md={2} lg={3} xl={4} className="g-4 mobile-grid">
-                      {allRecipes.map((recipe) => (
+              <Tab.Content>
+                <Tab.Pane eventKey="all">
+                  {allRecipes.length === 0 ? (
+                    <div className="text-center py-5">
+                      <i className="bi bi-journal-x mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
+                      <h4>Пока нет рецептов</h4>
+                      <p>Создайте первый рецепт или дождитесь, пока другие пользователи добавят свои</p>
+                    </div>
+                  ) : (
+                    <Row className="m-0">
+                      {window.innerWidth <= 768 && (
+                        <div className="mobile-search">
+                          <Form onSubmit={handleSearch}>
+                            <InputGroup>
+                              <Form.Control
+                                placeholder="Поиск рецептов..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                              />
+                              <Button variant="primary" type="submit" disabled={isSearching}>
+                                {isSearching ? <Spinner animation="border" size="sm" /> : <i className="bi bi-search"></i>}
+                              </Button>
+                            </InputGroup>
+                          </Form>
+                        </div>
+                      )}
+                      <Row xs={1} sm={2} md={2} lg={3} xl={4} className="g-4 mobile-grid">
+                        {allRecipes.map((recipe) => (
+                          <Col key={recipe.id}>
+                            <RecipeCard recipe={recipe} />
+                          </Col>
+                        ))}
+                      </Row>
+                    </Row>
+                  )}
+                </Tab.Pane>
+
+                <Tab.Pane eventKey="my">
+                  {userRecipes.length === 0 ? (
+                    <div className="text-center py-5">
+                      <i className="bi bi-journal-plus mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
+                      <h4>У вас пока нет рецептов</h4>
+                      <p>Создайте свой первый рецепт, нажав кнопку "Создать рецепт"</p>
+                      <Button variant="primary" onClick={handleCreateRecipe}>
+                        <i className="bi bi-plus-circle me-2"></i> Создать рецепт
+                      </Button>
+                    </div>
+                  ) : (
+                    <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+                      {userRecipes.map((recipe) => (
+                        <Col key={recipe.id}>
+                          <RecipeCard recipe={recipe} isUserRecipe={true} />
+                        </Col>
+                      ))}
+                    </Row>
+                  )}
+                </Tab.Pane>
+
+                <Tab.Pane eventKey="favorite">
+                  {favoriteRecipes.length === 0 ? (
+                    <div className="text-center py-5">
+                      <i className="bi bi-heart mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
+                      <h4>У вас пока нет избранных рецептов</h4>
+                      <p>Добавляйте рецепты в избранное, нажимая на иконку сердечка</p>
+                    </div>
+                  ) : (
+                    <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+                      {favoriteRecipes.map((recipe) => (
                         <Col key={recipe.id}>
                           <RecipeCard recipe={recipe} />
                         </Col>
                       ))}
                     </Row>
-                  </Row>
-                )}
-              </Tab.Pane>
+                  )}
+                </Tab.Pane>
 
-              <Tab.Pane eventKey="my">
-                {userRecipes.length === 0 ? (
-                  <div className="text-center py-5">
-                    <i className="bi bi-journal-plus mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
-                    <h4>У вас пока нет рецептов</h4>
-                    <p>Создайте свой первый рецепт, нажав кнопку "Создать рецепт"</p>
-                    <Button variant="primary" onClick={handleCreateRecipe}>
-                      <i className="bi bi-plus-circle me-2"></i> Создать рецепт
-                    </Button>
-                  </div>
-                ) : (
-                  <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-                    {userRecipes.map((recipe) => (
-                      <Col key={recipe.id}>
-                        <RecipeCard recipe={recipe} isUserRecipe={true} />
-                      </Col>
-                    ))}
-                  </Row>
-                )}
-              </Tab.Pane>
+                <Tab.Pane eventKey="search">
+                  {searchResults.length === 0 ? (
+                    <div className="text-center py-5">
+                      <i className="bi bi-search mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
+                      <h4>По запросу "{searchQuery}" ничего не найдено</h4>
+                      <p>Попробуйте изменить запрос или проверить правильность написания</p>
+                    </div>
+                  ) : (
+                    <>
+                      <h5 className="mb-3">Результаты поиска по запросу: "{searchQuery}"</h5>
+                      <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+                        {searchResults.map((recipe) => (
+                          <Col key={recipe.id}>
+                            <RecipeCard recipe={recipe} isUserRecipe={userRecipes.some(r => r.id === recipe.id)} />
+                          </Col>
+                        ))}
+                      </Row>
+                    </>
+                  )}
+                </Tab.Pane>
+              </Tab.Content>
+            </Tab.Container>
+          </Col>
+        </Row>
+      </div>
 
-              <Tab.Pane eventKey="favorite">
-                {favoriteRecipes.length === 0 ? (
-                  <div className="text-center py-5">
-                    <i className="bi bi-heart mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
-                    <h4>У вас пока нет избранных рецептов</h4>
-                    <p>Добавляйте рецепты в избранное, нажимая на иконку сердечка</p>
-                  </div>
-                ) : (
-                  <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-                    {favoriteRecipes.map((recipe) => (
-                      <Col key={recipe.id}>
-                        <RecipeCard recipe={recipe} />
-                      </Col>
-                    ))}
-                  </Row>
-                )}
-              </Tab.Pane>
-
-              <Tab.Pane eventKey="search">
-                {searchResults.length === 0 ? (
-                  <div className="text-center py-5">
-                    <i className="bi bi-search mb-3" style={{ fontSize: '3rem', color: theme === 'dark' ? '#666' : '#aaa' }}></i>
-                    <h4>По запросу "{searchQuery}" ничего не найдено</h4>
-                    <p>Попробуйте изменить запрос или проверить правильность написания</p>
-                  </div>
-                ) : (
-                  <>
-                    <h5 className="mb-3">Результаты поиска по запросу: "{searchQuery}"</h5>
-                    <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-                      {searchResults.map((recipe) => (
-                        <Col key={recipe.id}>
-                          <RecipeCard recipe={recipe} isUserRecipe={userRecipes.some(r => r.id === recipe.id)} />
-                        </Col>
-                      ))}
-                    </Row>
-                  </>
-                )}
-              </Tab.Pane>
-            </Tab.Content>
-          </Tab.Container>
-        </Col>
-      </Row>
+      {window.innerWidth <= 768 && (
+        <Nav className="mobile-nav d-flex flex-row justify-content-around">
+          <Nav.Link as={Link} to="/" className="flex-fill">
+            <i className="bi bi-house-door"></i>
+            <span>Главная</span>
+          </Nav.Link>
+          <Nav.Link as={Link} to="/recipes" className="flex-fill active">
+            <i className="bi bi-journal-text"></i>
+            <span>Рецепты</span>
+          </Nav.Link>
+          <Nav.Link as={Link} to="/profile" className="flex-fill">
+            <i className="bi bi-person"></i>
+            <span>Профиль</span>
+          </Nav.Link>
+          <Nav.Link as={Link} to="/settings" className="flex-fill">
+            <i className="bi bi-gear"></i>
+            <span>Настройки</span>
+          </Nav.Link>
+        </Nav>
+      )}
     </Container>
   );
 };
