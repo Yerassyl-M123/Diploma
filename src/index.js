@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../styles/MobileStyles.css';
 import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import './styles/MobileStyles.css';
 import './styles/theme.css';
 import './utils/mobileFix';
 
