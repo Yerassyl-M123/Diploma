@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import { Badge, Button, Card, Col, Container, Image, ListGroup, Nav, Row, Spinner } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../App';
+import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
-
 import '../styles/MobileStyles.css';
 
 const HomePage = () => {
