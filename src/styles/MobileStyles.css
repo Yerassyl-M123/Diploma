@@ -33,10 +33,10 @@
     padding-bottom: 80px !important;
     margin-bottom: 0 !important;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* Для плавной прокрутки на iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
-  .mobile-header {
+  /* .mobile-header {
     position: sticky;
     top: 0;
     left: 0;
@@ -47,7 +47,7 @@
     border-bottom: 1px solid var(--mobile-header-border);
     padding-top: env(safe-area-inset-top);
     background-color: var(--bg-color);
-  }
+  } */
 
   .mobile-form-container {
     padding: 15px !important;
