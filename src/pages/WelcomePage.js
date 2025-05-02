@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react';
 import {
-    Badge,
-    Button,
-    Card,
-    Col,
-    Container,
-    Form,
-    Nav,
-    Row
+  Badge,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Nav,
+  Row
 } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../App';
@@ -308,18 +308,7 @@ const WelcomePage = () => {
                       <Badge bg="light" text="dark" className="py-2 px-3">
                         <i className="bi bi-clock"></i> {recipe.prepTime}
                       </Badge>
-                      {/* <div>
-                        <Button 
-                          variant="link" 
-                          className={`p-0 me-2 ${liked[index] ? 'text-danger' : 'text-muted'}`}
-                          onClick={() => toggleLike(index)}
-                        >
-                          <i className={`bi ${liked[index] ? 'bi-heart-fill' : 'bi-heart'}`}></i>
-                        </Button>
-                        <Button variant="link" className="p-0 text-primary">
-                          <i className="bi bi-pencil"></i>
-                        </Button>
-                      </div> */}
+                      
                     </div>
                   </Card.Body>
                 </Card>

@@ -13,14 +13,12 @@
   padding-right: max(env(safe-area-inset-right), 15px);
 }
 
-/* Фикс для iPhone X и новее */
 @supports (padding: max(0px)) {
   .mobile-nav {
     padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
 }
 
-/* Улучшенные тач-таргеты для мобильных */
 @media (max-width: 768px) {
   .btn, 
   .nav-link,

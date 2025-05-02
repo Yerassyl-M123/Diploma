@@ -349,7 +349,7 @@ const RecipePage = () => {
               marginBottom: window.innerWidth <= 768 ? '60px' : 0
             }}
           >
-            {isMobile && (
+            {/* {isMobile && (
               <div className="mobile-search-container">
                 <Form onSubmit={handleSearch}>
                   <InputGroup>
@@ -368,7 +368,7 @@ const RecipePage = () => {
                   </InputGroup>
                 </Form>
               </div>
-            )}
+            )} */}
 
             {error && (
               <Alert variant="danger" onClose={() => setError('')} dismissible>
@@ -439,7 +439,7 @@ const RecipePage = () => {
                     </div>
                   ) : (
                     <Row className="m-0">
-                      {/* {window.innerWidth <= 768 && (
+                      {window.innerWidth <= 768 && (
                         <div className="mobile-search">
                           <Form onSubmit={handleSearch}>
                             <InputGroup>
@@ -454,7 +454,7 @@ const RecipePage = () => {
                             </InputGroup>
                           </Form>
                         </div>
-                      )} */}
+                      )}
                       <Row xs={1} sm={2} md={2} lg={3} xl={4} className="g-4 mobile-grid">
                         {allRecipes.map((recipe) => (
                           <Col key={recipe.id}>

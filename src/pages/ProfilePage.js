@@ -413,7 +413,6 @@ const ProfilePage = () => {
               </div>
             )}
 
-            {/* <div className="mobile-cards"> */}
               <div className="mb-4">
                 <h2 className="mb-2">Личный кабинет</h2>
                 <p className="text-muted">Управляйте своим профилем и отслеживайте прогресс</p>

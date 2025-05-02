@@ -107,7 +107,6 @@ const SettingsPage = () => {
 
   return (
     <Container fluid className="px-0">
-      {/* Хедер */}
       <Row className="m-0 py-3 border-bottom shadow-sm mobile-header" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         position: 'sticky',
@@ -175,9 +174,7 @@ const SettingsPage = () => {
                className={`${isMobile ? 'px-3' : 'p-4'}`}>
             <h4 className="mb-3">Настройки</h4>
             
-            {/* Карточки настроек */}
             <div className="mobile-settings-cards">
-              {/* Тема */}
               <Card className="mobile-settings-card shadow-sm" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
                 borderColor: theme === 'dark' ? '#444' : '#dee2e6',
@@ -212,7 +209,6 @@ const SettingsPage = () => {
                 </Card.Body>
               </Card>
 
-              {/* Безопасность */}
               <Card className="mobile-settings-card shadow-sm" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
                 borderColor: theme === 'dark' ? '#444' : '#dee2e6',
@@ -238,7 +234,6 @@ const SettingsPage = () => {
                 </Card.Body>
               </Card>
 
-              {/* О приложении */}
               <Card className="mobile-settings-card shadow-sm" style={{ 
                 backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
                 borderColor: theme === 'dark' ? '#444' : '#dee2e6',
