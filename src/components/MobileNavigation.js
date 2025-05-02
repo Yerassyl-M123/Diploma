@@ -17,12 +17,12 @@ const MobileNavigation = ({ activePage, theme }) => {
         <span>Профиль</span>
       </Nav.Link>
       <Nav.Link as={Link} to="/product-search" className={`flex-fill ${activePage === 'product-search' ? 'active' : ''}`}>
-        <i className="bi bi-gear"></i>
-        <span>Настройки</span>
+        <i className="bi bi-search d-block"></i>
+        <span>Поиск</span>
       </Nav.Link>
       <Nav.Link as={Link} to="/ai-scanner" className={`flex-fill ${activePage === 'ai-scanner' ? 'active' : ''}`}>
-        <i className="bi bi-gear"></i>
-        <span>Настройки</span>
+        <i className="bi bi-camera d-block"></i>
+        <span>Сканер</span>
       </Nav.Link>
       <Nav.Link as={Link} to="/settings" className={`flex-fill ${activePage === 'settings' ? 'active' : ''}`}>
         <i className="bi bi-gear"></i>

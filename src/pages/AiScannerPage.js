@@ -13,6 +13,7 @@ const AiScannerPage = () => {
   const [scanResult, setScanResult] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef(null);
+  const isMobile = window.innerWidth <= 768;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -175,239 +176,260 @@ const AiScannerPage = () => {
 
   return (
     <Container fluid className="px-0">
-      <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
-        backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000 
-      }}>
-        <Col xs={12} className="d-flex align-items-center">
-          <h1 className="m-0">
-            <Link to="/" className="text-decoration-none">
-              <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
-              <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>
-            </Link>
-          </h1>
-        </Col>
-      </Row>
-
-      <Row className="m-0">
-        <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
-          minHeight: 'calc(100vh - 60px)', 
-          backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
-          position: 'sticky',
-          top: '60px',
-          height: 'calc(100vh - 60px)',
-          overflowY: 'auto'
+      <div className="mobile-header">
+        <Row className="m-0 py-2" style={{ 
+          backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff'
         }}>
-          <Nav className="flex-column py-4">
-            <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-house-door me-2"></i> Главная
-            </Nav.Link>
-            <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-journal-text me-2"></i> Рецепты
-            </Nav.Link>
-            <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-person me-2"></i> Профиль
-            </Nav.Link>
-            <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-search me-2"></i> Поиск продуктов
-            </Nav.Link>
-            <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3 active" style={{
-              borderLeft: '4px solid #2E8B57',
-              backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
-            }}>
-              <i className="bi bi-camera me-2"></i> AI Сканер
-            </Nav.Link>
-            <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
-              borderLeft: '4px solid transparent'
-            }}>
-              <i className="bi bi-gear me-2"></i> Настройки
-            </Nav.Link>
-          </Nav>
-        </Col>
+          <Col xs={12} className="d-flex align-items-center">
+            <h1 className="m-0 h4">
+              <Link to="/" className="text-decoration-none">
+                <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
+                <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>
+              </Link>
+            </h1>
+          </Col>
+        </Row>
+      </div>
 
-        <Col xs={12} md={9} lg={10} className="p-4">
-          <Row className="mb-4">
-            <Col>
-              <h1 className="mb-2">AI Сканер Продуктов</h1>
-              <p className="text-muted">
-                Загрузите фотографию продукта, и наш ИИ определит его состав, калорийность и статус Халяль/Харам.
-              </p>
+      <div className="mobile-content">
+        <div className="ai-scanner-container">
+          <Row className="m-0 py-3 border-bottom shadow-sm" style={{ 
+            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+            position: 'sticky',
+            top: 0,
+            zIndex: 1000 
+          }}>
+            <Col xs={12} className="d-flex align-items-center">
+              <h1 className="m-0">
+                <Link to="/" className="text-decoration-none">
+                  <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
+                  <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>
+                </Link>
+              </h1>
             </Col>
           </Row>
 
-          {error && <Alert variant="danger">{error}</Alert>}
+          <Row className="m-0">
+            <Col xs={12} md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
+              minHeight: 'calc(100vh - 60px)', 
+              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
+              position: 'sticky',
+              top: '60px',
+              height: 'calc(100vh - 60px)',
+              overflowY: 'auto'
+            }}>
+              <Nav className="flex-column py-4">
+                <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-house-door me-2"></i> Главная
+                </Nav.Link>
+                <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-journal-text me-2"></i> Рецепты
+                </Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-person me-2"></i> Профиль
+                </Nav.Link>
+                <Nav.Link as={Link} to="/product-search" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-search me-2"></i> Поиск продуктов
+                </Nav.Link>
+                <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3 active" style={{
+                  borderLeft: '4px solid #2E8B57',
+                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
+                }}>
+                  <i className="bi bi-camera me-2"></i> AI Сканер
+                </Nav.Link>
+                <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-gear me-2"></i> Настройки
+                </Nav.Link>
+              </Nav>
+            </Col>
 
-          <Card 
-            className="mb-4 shadow-sm" 
-            style={{
-              backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
-              borderColor: theme === 'dark' ? '#444' : '#dee2e6',
-              color: theme === 'dark' ? '#fff' : '#212529'
-            }}
-          >
-            <Card.Header 
-              as="h5" 
-              style={{ 
-                backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
-                borderBottom: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6' 
-              }}
-            >
-              <i className="bi bi-upload me-2"></i>
-              Загрузка изображения
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <Col md={6} className="mb-3 mb-md-0">
-                  <Form.Group>
-                    <Form.Label>Выберите изображение продукта</Form.Label>
-                    <Form.Control
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/jpeg,image/png,image/jpg"
-                      onChange={handleImageChange}
-                      style={{
-                        backgroundColor: theme === 'dark' ? '#333' : '#fff',
-                        color: theme === 'dark' ? '#fff' : '#333',
-                        borderColor: theme === 'dark' ? '#555' : '#ced4da'
-                      }}
-                    />
-                    <Form.Text className={theme === 'dark' ? 'text-light opacity-75' : 'text-muted'}>
-                      Поддерживаемые форматы: JPG, JPEG, PNG. Максимальный размер: 10MB
-                    </Form.Text>
-                  </Form.Group>
-
-                  <div className="d-grid gap-2 mt-3">
-                    <Button 
-                      variant="primary" 
-                      onClick={handleScan}
-                      disabled={!selectedImage || loading}
-                      className="d-flex align-items-center justify-content-center"
-                    >
-                      {loading ? (
-                        <>
-                          <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
-                          Сканирование...
-                        </>
-                      ) : (
-                        <>
-                          <i className="bi bi-camera me-2"></i>
-                          Сканировать продукт
-                        </>
-                      )}
-                    </Button>
-                    <Button 
-                      variant="outline-secondary" 
-                      onClick={resetScan}
-                      disabled={!selectedImage || loading}
-                    >
-                      <i className="bi bi-arrow-repeat me-2"></i>
-                      Сбросить
-                    </Button>
-                  </div>
-
-                  {loading && (
-                    <div className="mt-3">
-                      <ProgressBar 
-                        animated 
-                        now={uploadProgress} 
-                        label={`${uploadProgress}%`} 
-                        variant="success" 
-                      />
-                      <p className="text-center mt-2">
-                        Анализируем изображение... Пожалуйста, подождите.
-                      </p>
-                    </div>
-                  )}
-                </Col>
-                <Col md={6} className="d-flex align-items-center justify-content-center">
-                  <div
-                    className="d-flex align-items-center justify-content-center rounded border"
-                    style={{
-                      width: '100%',
-                      height: '280px',
-                      borderColor: theme === 'dark' ? '#555' : '#dee2e6',
-                      backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    {previewUrl ? (
-                      <Image 
-                        src={previewUrl} 
-                        alt="Предпросмотр продукта" 
-                        style={{ 
-                          maxWidth: '100%', 
-                          maxHeight: '100%', 
-                          objectFit: 'contain' 
-                        }} 
-                      />
-                    ) : (
-                      <div className="text-center p-4">
-                        <i className="bi bi-camera" style={{ fontSize: '3rem', opacity: 0.5 }}></i>
-                        <p className="mt-3 mb-0">Предпросмотр изображения</p>
-                      </div>
-                    )}
-                  </div>
+            <Col xs={12} md={9} lg={10} className="p-4">
+              <Row className="mb-4">
+                <Col>
+                  <h1 className="mb-2">AI Сканер Продуктов</h1>
+                  <p className="text-muted">
+                    Загрузите фотографию продукта, и наш ИИ определит его состав, калорийность и статус Халяль/Харам.
+                  </p>
                 </Col>
               </Row>
-            </Card.Body>
-          </Card>
 
-          {renderScanResult()}
+              {error && <Alert variant="danger">{error}</Alert>}
 
-          <div className="mt-5">
-            <h4 className="mb-3">Как это работает?</h4>
-            <Card 
-              style={{
-                backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
-                borderColor: theme === 'dark' ? '#444' : '#dee2e6',
-                color: theme === 'dark' ? '#fff' : '#212529'
-              }}
-            >
-              <Card.Body>
-                <div className="d-flex mb-4">
-                  <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style={{ width: 50, height: 50, minWidth: 50 }}>
-                    <i className="bi bi-1-circle-fill text-white fs-4"></i>
-                  </div>
-                  <div>
-                    <h5>Загрузите фото</h5>
-                    <p className="mb-0">Сделайте фото продукта или выберите готовое изображение из галереи.</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex mb-4">
-                  <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style={{ width: 50, height: 50, minWidth: 50 }}>
-                    <i className="bi bi-2-circle-fill text-white fs-4"></i>
-                  </div>
-                  <div>
-                    <h5>ИИ анализирует состав</h5>
-                    <p className="mb-0">Нейросеть распознает продукт и анализирует его состав по изображению.</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex">
-                  <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style={{ width: 50, height: 50, minWidth: 50 }}>
-                    <i className="bi bi-3-circle-fill text-white fs-4"></i>
-                  </div>
-                  <div>
-                    <h5>Получите результат</h5>
-                    <p className="mb-0">Вы увидите детальную информацию о продукте, включая его статус Халяль/Харам, калорийность и состав.</p>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </div>
-        </Col>
-      </Row>
+              <Card 
+                className="mb-4 shadow-sm" 
+                style={{
+                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
+                  borderColor: theme === 'dark' ? '#444' : '#dee2e6',
+                  color: theme === 'dark' ? '#fff' : '#212529'
+                }}
+              >
+                <Card.Header 
+                  as="h5" 
+                  style={{ 
+                    backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
+                    borderBottom: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6' 
+                  }}
+                >
+                  <i className="bi bi-upload me-2"></i>
+                  Загрузка изображения
+                </Card.Header>
+                <Card.Body>
+                  <Row>
+                    <Col md={6} className="mb-3 mb-md-0">
+                      <Form.Group>
+                        <Form.Label>Выберите изображение продукта</Form.Label>
+                        <Form.Control
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/jpeg,image/png,image/jpg"
+                          onChange={handleImageChange}
+                          style={{
+                            backgroundColor: theme === 'dark' ? '#333' : '#fff',
+                            color: theme === 'dark' ? '#fff' : '#333',
+                            borderColor: theme === 'dark' ? '#555' : '#ced4da'
+                          }}
+                        />
+                        <Form.Text className={theme === 'dark' ? 'text-light opacity-75' : 'text-muted'}>
+                          Поддерживаемые форматы: JPG, JPEG, PNG. Максимальный размер: 10MB
+                        </Form.Text>
+                      </Form.Group>
+
+                      <div className="d-grid gap-2 mt-3">
+                        <Button 
+                          variant="primary" 
+                          onClick={handleScan}
+                          disabled={!selectedImage || loading}
+                          className="d-flex align-items-center justify-content-center"
+                        >
+                          {loading ? (
+                            <>
+                              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                              Сканирование...
+                            </>
+                          ) : (
+                            <>
+                              <i className="bi bi-camera me-2"></i>
+                              Сканировать продукт
+                            </>
+                          )}
+                        </Button>
+                        <Button 
+                          variant="outline-secondary" 
+                          onClick={resetScan}
+                          disabled={!selectedImage || loading}
+                        >
+                          <i className="bi bi-arrow-repeat me-2"></i>
+                          Сбросить
+                        </Button>
+                      </div>
+
+                      {loading && (
+                        <div className="mt-3">
+                          <ProgressBar 
+                            animated 
+                            now={uploadProgress} 
+                            label={`${uploadProgress}%`} 
+                            variant="success" 
+                          />
+                          <p className="text-center mt-2">
+                            Анализируем изображение... Пожалуйста, подождите.
+                          </p>
+                        </div>
+                      )}
+                    </Col>
+                    <Col md={6} className="d-flex align-items-center justify-content-center">
+                      <div
+                        className="d-flex align-items-center justify-content-center rounded border"
+                        style={{
+                          width: '100%',
+                          height: '280px',
+                          borderColor: theme === 'dark' ? '#555' : '#dee2e6',
+                          backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        {previewUrl ? (
+                          <Image 
+                            src={previewUrl} 
+                            alt="Предпросмотр продукта" 
+                            style={{ 
+                              maxWidth: '100%', 
+                              maxHeight: '100%', 
+                              objectFit: 'contain' 
+                            }} 
+                          />
+                        ) : (
+                          <div className="text-center p-4">
+                            <i className="bi bi-camera" style={{ fontSize: '3rem', opacity: 0.5 }}></i>
+                            <p className="mt-3 mb-0">Предпросмотр изображения</p>
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+
+              {renderScanResult()}
+
+              <div className="mt-5">
+                <h4 className="mb-3">Как это работает?</h4>
+                <Card 
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
+                    borderColor: theme === 'dark' ? '#444' : '#dee2e6',
+                    color: theme === 'dark' ? '#fff' : '#212529'
+                  }}
+                >
+                  <Card.Body>
+                    <div className="d-flex mb-4">
+                      <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style={{ width: 50, height: 50, minWidth: 50 }}>
+                        <i className="bi bi-1-circle-fill text-white fs-4"></i>
+                      </div>
+                      <div>
+                        <h5>Загрузите фото</h5>
+                        <p className="mb-0">Сделайте фото продукта или выберите готовое изображение из галереи.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="d-flex mb-4">
+                      <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style={{ width: 50, height: 50, minWidth: 50 }}>
+                        <i className="bi bi-2-circle-fill text-white fs-4"></i>
+                      </div>
+                      <div>
+                        <h5>ИИ анализирует состав</h5>
+                        <p className="mb-0">Нейросеть распознает продукт и анализирует его состав по изображению.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="d-flex">
+                      <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style={{ width: 50, height: 50, minWidth: 50 }}>
+                        <i className="bi bi-3-circle-fill text-white fs-4"></i>
+                      </div>
+                      <div>
+                        <h5>Получите результат</h5>
+                        <p className="mb-0">Вы увидите детальную информацию о продукте, включая его статус Халяль/Харам, калорийность и состав.</p>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </div>
+
+      {isMobile && <MobileNavigation activePage="ai-scanner" theme={theme} />}
     </Container>
   );
 };

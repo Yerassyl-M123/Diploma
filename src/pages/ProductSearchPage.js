@@ -189,23 +189,22 @@ const ProductSearchPage = () => {
 
   return (
     <Container fluid className="px-0">
-      <Row className="m-0 py-3 border-bottom shadow-sm mobile-header" style={{
-        backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000
-      }}>
-        <Col xs={12} className="d-flex align-items-center justify-content-between">
-          <h1 className="m-0">
-            <Link to="/" className="text-decoration-none">
-              <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
-              <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>
-            </Link>
-          </h1>
-        </Col>
-      </Row>
+      <div className="mobile-header">
+        <Row className="m-0 py-2" style={{ 
+          backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff'
+        }}>
+          <Col xs={12} className="d-flex align-items-center justify-content-between">
+            <h1 className="m-0 h4"> {/* Уменьшаем размер заголовка для мобильных */}
+              <Link to="/" className="text-decoration-none">
+                <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
+                <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>
+              </Link>
+            </h1>
+          </Col>
+        </Row>
+      </div>
 
-      <div className={`${isMobile ? 'mobile-content pb-5' : ''}`} style={{ minHeight: '100vh' }}>
+      <div className="mobile-content">
         <Row className="m-0">
           {!isMobile && (
             <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{
