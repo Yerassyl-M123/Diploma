@@ -17,6 +17,7 @@
     align-items: center;
     font-size: 12px;
     padding: 8px 0;
+    color: var(--mobile-nav-text);
   }
 
   .mobile-nav .nav-link i {
@@ -45,6 +46,7 @@
     background: var(--mobile-header-bg);
     border-bottom: 1px solid var(--mobile-header-border);
     padding: env(safe-area-inset-top) 15px 10px;
+    background-color: var(--header-bg);
   }
 
   .mobile-form-container {
@@ -88,6 +90,8 @@
     -webkit-overflow-scrolling: touch;
     margin: 0 -15px;
     padding: 0 15px;
+    flex-wrap: nowrap;
+    margin-bottom: 1rem;
   }
 
   .mobile-tabs::-webkit-scrollbar {
@@ -176,6 +180,19 @@
   .container-fluid {
     padding-left: max(env(safe-area-inset-left), 15px);
     padding-right: max(env(safe-area-inset-right), 15px);
+  }
+
+  .mobile-recipe-container {
+    padding-top: 60px;
+    padding-bottom: 70px;
+  }
+
+  .content-wrapper {
+    padding-bottom: 70px;
+  }
+
+  .main-content {
+    padding-top: 60px;
   }
 }
 
