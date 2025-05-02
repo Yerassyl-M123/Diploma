@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { useWindowSize } from './hooks/useWindowSize';
 import AiScannerPage from './pages/AiScannerPage';
 import CreateRecipePage from './pages/CreateRecipePage';
 import EditRecipePage from './pages/EditRecipePage';
@@ -102,14 +101,12 @@ const App = () => {
     }
   }, []);
 
-  const { width } = useWindowSize();
-  const isMobile = width <= 768;
 
   return (
     <AuthContext.Provider value={{ ...authState, refreshAuth }}>
       <ThemeProvider>
         <Router>
-        <div className={`app-container ${isMobile ? 'mobile-view' : ''}`}>
+        <div className="app-container">
             <main>
               {authState.isLoading ? (
                 <div className="d-flex justify-content-center align-items-center" style={{minHeight: '100vh'}}>
