@@ -329,13 +329,13 @@ const ProfilePage = () => {
           </h1>
         </Col>
         <Col xs={6} className="d-flex justify-content-end align-items-center">
-          <Button 
+          {/* <Button 
             variant={theme === 'dark' ? 'outline-light' : 'outline-primary'} 
             onClick={() => setShowEditModal(true)}
             className="me-2 d-flex align-items-center"
           >
             <i className="bi bi-pencil me-2"></i> Редактировать
-          </Button>
+          </Button> */}
           <Button 
             variant={theme === 'dark' ? 'outline-danger' : 'outline-danger'} 
             onClick={handleSignOut}
