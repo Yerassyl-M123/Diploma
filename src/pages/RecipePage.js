@@ -241,7 +241,7 @@ const RecipePage = () => {
   }
 
   return (
-    <Container fluid className="px-0 pb-5">
+    <Container fluid className="px-0">
       <Row className="m-0 py-3 border-bottom shadow-sm fixed-top" style={{ 
         backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
         zIndex: 1000 
@@ -284,15 +284,21 @@ const RecipePage = () => {
         )}
       </Row>
 
-      <div style={{ paddingTop: '60px' }}>
-        <Row className="m-0">
+      <div style={{ 
+        paddingTop: '60px',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        <Row className="m-0 flex-grow-1">
           {window.innerWidth > 768 && (
-            <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{ 
+            <Col md={3} lg={2} className="p-0 border-end" style={{ 
               position: 'fixed',
               top: '60px',
               bottom: 0,
               overflowY: 'auto',
-              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa'
+              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
+              borderRight: `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}`
             }}>
               <Nav className="flex-column py-4">
                 <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
@@ -330,12 +336,16 @@ const RecipePage = () => {
             </Col>
           )}
 
-          <Col xs={12} md={window.innerWidth > 768 ? 9 : 12} lg={window.innerWidth > 768 ? 10 : 12} 
-               className="p-4"
-               style={{ 
-                 marginLeft: window.innerWidth > 768 ? '25%' : 0,
-                 marginBottom: window.innerWidth <= 768 ? '60px' : 0
-               }}>
+          <Col 
+            xs={12} 
+            md={window.innerWidth > 768 ? 9 : 12} 
+            lg={window.innerWidth > 768 ? 10 : 12} 
+            className="p-4"
+            style={{ 
+              marginLeft: window.innerWidth > 768 ? '16.666667%' : 0,
+              marginBottom: window.innerWidth <= 768 ? '60px' : 0
+            }}
+          >
             {window.innerWidth <= 768 && (
               <Form onSubmit={handleSearch} className="mb-4">
                 <InputGroup>
@@ -525,7 +535,16 @@ const RecipePage = () => {
       </div>
 
       {window.innerWidth <= 768 && (
-        <Nav className="mobile-nav d-flex flex-row justify-content-around">
+        <Nav className="mobile-nav d-flex flex-row justify-content-around" style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+          borderTop: `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}`,
+          zIndex: 1000,
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)'
+        }}>
           <Nav.Link as={Link} to="/" className="flex-fill">
             <i className="bi bi-house-door"></i>
             <span>Главная</span>

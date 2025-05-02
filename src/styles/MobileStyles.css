@@ -34,6 +34,7 @@
   .mobile-content {
     padding-top: 60px;
     padding-bottom: 80px !important;
+    margin-bottom: 60px;
   }
 
   .mobile-header {
@@ -89,6 +90,31 @@
     padding-left: max(env(safe-area-inset-left), 15px);
     padding-right: max(env(safe-area-inset-right), 15px);
   }
+}
+
+@media screen and (min-width: 769px) {
+  .recipe-content {
+    margin-left: 16.666667%;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    overflow-y: auto;
+  }
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 :root {
