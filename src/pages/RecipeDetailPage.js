@@ -2,8 +2,10 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Container, ListGroup, Nav, Row, Spinner } from 'react-bootstrap';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { useWindowSize } from '../hooks/useWindowSize';
+
 
 const RecipeDetailPage = () => {
   const { id } = useParams();

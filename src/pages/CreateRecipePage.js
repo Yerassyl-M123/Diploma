@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Container, Form, InputGroup, Nav, Row, Spinner } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
+import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { useWindowSize } from '../hooks/useWindowSize';
 
