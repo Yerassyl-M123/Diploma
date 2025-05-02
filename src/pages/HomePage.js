@@ -4,6 +4,7 @@ import { Badge, Button, Card, Col, Container, Image, ListGroup, Nav, Row, Spinne
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../App';
 import { ThemeContext } from '../contexts/ThemeContext';
+
 import '../styles/MobileStyles.css';
 
 const HomePage = () => {
@@ -332,26 +333,7 @@ const HomePage = () => {
                 )}
               </div>
             </Col>
-          ) : (
-            <Nav className="mobile-nav d-flex flex-row justify-content-around">
-              <Nav.Link as={Link} to="/" className="flex-fill">
-                <i className="bi bi-house-door"></i>
-                <span>Главная</span>
-              </Nav.Link>
-              <Nav.Link as={Link} to="/recipes" className="flex-fill">
-                <i className="bi bi-journal-text"></i>
-                <span>Рецепты</span>
-              </Nav.Link>
-              <Nav.Link as={Link} to="/profile" className="flex-fill">
-                <i className="bi bi-person"></i>
-                <span>Профиль</span>
-              </Nav.Link>
-              <Nav.Link as={Link} to="/settings" className="flex-fill">
-                <i className="bi bi-gear"></i>
-                <span>Настройки</span>
-              </Nav.Link>
-            </Nav>
-          )}
+          ) : null}
 
           <Col xs={12} md={9} lg={10} className="p-4">
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -786,6 +768,8 @@ const HomePage = () => {
           </Col>
         </Row>
       </div>
+
+      {window.innerWidth <= 768 && <MobileNavigation activePage="home" theme={theme} />}
     </Container>
   );
 };

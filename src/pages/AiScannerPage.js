@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useRef, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form, Image, Nav, ProgressBar, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
 
 const AiScannerPage = () => {

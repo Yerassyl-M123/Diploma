@@ -2,8 +2,10 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Container, Form, InputGroup, Nav, Row, Spinner, Tab } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
+import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
 import '../styles/MobileStyles.css';
+
 
 const RecipePage = () => {
   const { theme } = useContext(ThemeContext);
@@ -17,6 +19,7 @@ const RecipePage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState('');
+  const isMobile = window.innerWidth <= 768;
 
   useEffect(() => {
     const fetchAllRecipes = async () => {
@@ -346,31 +349,25 @@ const RecipePage = () => {
               marginBottom: window.innerWidth <= 768 ? '60px' : 0
             }}
           >
-            {window.innerWidth <= 768 && (
-              <Form onSubmit={handleSearch} className="mb-4">
-                <InputGroup>
-                  <Form.Control
-                    placeholder="Поиск рецептов..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ 
-                      backgroundColor: theme === 'dark' ? '#333' : '#fff',
-                      color: theme === 'dark' ? '#fff' : '#333'
-                    }}
-                  />
-                  <Button 
-                    variant="primary" 
-                    type="submit"
-                    disabled={isSearching}
-                  >
-                    {isSearching ? (
-                      <Spinner animation="border" size="sm" />
-                    ) : (
-                      <i className="bi bi-search"></i>
-                    )}
-                  </Button>
-                </InputGroup>
-              </Form>
+            {isMobile && (
+              <div className="mobile-search-container sticky-top bg-light py-2 px-3">
+                <Form onSubmit={handleSearch}>
+                  <InputGroup>
+                    <Form.Control
+                      placeholder="Поиск рецептов..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <Button variant="primary" type="submit" disabled={isSearching}>
+                      {isSearching ? (
+                        <Spinner animation="border" size="sm" />
+                      ) : (
+                        <i className="bi bi-search"></i>
+                      )}
+                    </Button>
+                  </InputGroup>
+                </Form>
+              </div>
             )}
 
             {error && (
@@ -534,35 +531,7 @@ const RecipePage = () => {
         </Row>
       </div>
 
-      {window.innerWidth <= 768 && (
-        <Nav className="mobile-nav d-flex flex-row justify-content-around" style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
-          borderTop: `1px solid ${theme === 'dark' ? '#444' : '#dee2e6'}`,
-          zIndex: 1000,
-          paddingBottom: 'env(safe-area-inset-bottom, 0px)'
-        }}>
-          <Nav.Link as={Link} to="/" className="flex-fill">
-            <i className="bi bi-house-door"></i>
-            <span>Главная</span>
-          </Nav.Link>
-          <Nav.Link as={Link} to="/recipes" className="flex-fill active">
-            <i className="bi bi-journal-text"></i>
-            <span>Рецепты</span>
-          </Nav.Link>
-          <Nav.Link as={Link} to="/profile" className="flex-fill">
-            <i className="bi bi-person"></i>
-            <span>Профиль</span>
-          </Nav.Link>
-          <Nav.Link as={Link} to="/settings" className="flex-fill">
-            <i className="bi bi-gear"></i>
-            <span>Настройки</span>
-          </Nav.Link>
-        </Nav>
-      )}
+      {window.innerWidth <= 768 && <MobileNavigation activePage="recipes" theme={theme} />}
     </Container>
   );
 };
