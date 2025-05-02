@@ -101,8 +101,6 @@ const App = () => {
     }
   }, []);
 
-  const isMobile = width <= 768;
-
   return (
     <AuthContext.Provider value={{ ...authState, refreshAuth }}>
       <ThemeProvider>
