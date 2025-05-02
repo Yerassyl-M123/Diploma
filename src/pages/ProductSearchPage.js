@@ -195,7 +195,7 @@ const ProductSearchPage = () => {
         top: 0,
         zIndex: 1000
       }}>
-        <Col xs={12} className="d-flex align-items-center">
+        <Col xs={12} className="d-flex align-items-center justify-content-between">
           <h1 className="m-0">
             <Link to="/" className="text-decoration-none">
               <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
@@ -205,7 +205,7 @@ const ProductSearchPage = () => {
         </Col>
       </Row>
 
-      <div className={`${isMobile ? 'mobile-content' : ''}`}>
+      <div className={`${isMobile ? 'mobile-content pb-5' : ''}`} style={{ minHeight: '100vh' }}>
         <Row className="m-0">
           {!isMobile && (
             <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{

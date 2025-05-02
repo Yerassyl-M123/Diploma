@@ -32,10 +32,12 @@
     padding-top: 60px !important;
     padding-bottom: 80px !important;
     margin-bottom: 0 !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Для плавной прокрутки на iOS */
   }
 
   .mobile-header {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
@@ -43,6 +45,8 @@
     padding: 10px 15px;
     background: var(--mobile-header-bg);
     border-bottom: 1px solid var(--mobile-header-border);
+    padding-top: env(safe-area-inset-top);
+    background-color: var(--bg-color);
   }
 
   .mobile-form-container {
@@ -117,6 +121,7 @@
 
   .mobile-product-list {
     margin: 0 -15px;
+    margin-top: 1rem;
   }
 
   .mobile-search-container {
@@ -126,6 +131,20 @@
     background: var(--mobile-header-bg);
     padding: 15px;
     border-bottom: 1px solid var(--mobile-header-border);
+    padding: 1rem;
+  }
+
+  .mobile-search-container .row {
+    flex-direction: column;
+  }
+
+  .mobile-search-container .col-auto {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .mobile-search-container button {
+    width: 100%;
   }
 
   .fixed-top {
@@ -185,4 +204,20 @@
   --mobile-search-bg: #1a1a1a;
   --mobile-nav-text: #aaa;
   --mobile-nav-active: #4682B4;
+}
+
+html, body {
+  overflow-x: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.mobile-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--bg-color);
+  padding-bottom: env(safe-area-inset-bottom);
 }
