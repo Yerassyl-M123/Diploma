@@ -6,7 +6,7 @@ import { AuthContext } from '../App';
 import MobileNavigation from '../components/MobileNavigation';
 import WeightTracking from '../components/WeightTracking';
 import { ThemeContext } from '../contexts/ThemeContext';
-import useWindowSize from '../hooks/useWindowSize';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);

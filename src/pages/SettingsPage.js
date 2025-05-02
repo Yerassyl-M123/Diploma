@@ -4,7 +4,7 @@ import { Alert, Button, Card, Col, Container, Form, Modal, Nav, Row, Spinner } f
 import { Link } from 'react-router-dom';
 import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
-import useWindowSize from '../hooks/useWindowSize';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const SettingsPage = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);

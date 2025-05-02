@@ -4,7 +4,7 @@ import { Alert, Badge, Button, Card, Col, Container, Form, Image, ListGroup, Mod
 import { Link, useHistory } from 'react-router-dom';
 import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
-import useWindowSize from '../hooks/useWindowSize';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const ProductSearchPage = () => {
   const [productName, setProductName] = useState('');
