@@ -129,7 +129,7 @@
 
   .mobile-product-list {
     margin: 0 -15px;
-    margin-top: 1rem;
+    margin-top: 60px; /* Добавляем отступ для контента */
   }
 
   .mobile-search-container {
@@ -142,8 +142,14 @@
     border-bottom: 1px solid var(--mobile-header-border);
   }
 
+  .mobile-search-container h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
   .mobile-search-container .row {
     flex-direction: column;
+    margin-bottom: 0;
   }
 
   .mobile-search-container .col-auto {
@@ -151,8 +157,9 @@
     margin-top: 1rem;
   }
 
-  .mobile-search-container button {
+  .mobile-search-container .btn {
     width: 100%;
+    margin-bottom: 0;
   }
 
   .ai-scanner-container {

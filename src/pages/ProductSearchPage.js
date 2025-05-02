@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { Alert, Badge, Button, Card, Col, Container, Form, Image, ListGroup, Modal, Nav, Row, Spinner } from 'react-bootstrap';
+import { Alert, Badge, Button, Card, Col, Container, Form, Image, ListGroup, Modal, Row, Spinner } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import MobileNavigation from '../components/MobileNavigation';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -205,243 +205,193 @@ const ProductSearchPage = () => {
       </div>
 
       <div className="mobile-content">
-        <Row className="m-0">
-          {!isMobile && (
-            <Col md={3} lg={2} className="p-0 border-end shadow-sm" style={{
-              minHeight: 'calc(100vh - 60px)',
-              backgroundColor: theme === 'dark' ? '#1e1e1e' : '#f8f9fa',
-              position: 'sticky',
-              top: '60px',
-              height: 'calc(100vh - 60px)',
-              overflowY: 'auto'
-            }}>
-              <Nav className="flex-column py-4">
-                <Nav.Link as={Link} to="/" className="ps-4 py-3" style={{
-                  borderLeft: '4px solid transparent'
-                }}>
-                  <i className="bi bi-house-door me-2"></i> Главная
-                </Nav.Link>
-                <Nav.Link as={Link} to="/recipes" className="ps-4 py-3" style={{
-                  borderLeft: '4px solid transparent'
-                }}>
-                  <i className="bi bi-journal-text me-2"></i> Рецепты
-                </Nav.Link>
-                <Nav.Link as={Link} to="/profile" className="ps-4 py-3" style={{
-                  borderLeft: '4px solid transparent'
-                }}>
-                  <i className="bi bi-person me-2"></i> Профиль
-                </Nav.Link>
-                <Nav.Link as={Link} to="/product-search" className="ps-4 py-3 active" style={{
-                  borderLeft: '4px solid #2E8B57',
-                  backgroundColor: theme === 'dark' ? '#2a2a2a' : '#e9ecef'
-                }}>
-                  <i className="bi bi-search me-2"></i> Поиск продуктов
-                </Nav.Link>
-                <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
-                  borderLeft: '4px solid transparent'
-                }}>
-                  <i className="bi bi-search me-2"></i> AI Сканер
-                </Nav.Link>
-                <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
-                  borderLeft: '4px solid transparent'
-                }}>
-                  <i className="bi bi-gear me-2"></i> Настройки
-                </Nav.Link>
-              </Nav>
+        <div className="mobile-search-container">
+          <Row className="align-items-center">
+            <Col>
+              <h2 className="m-0">Поиск по продуктам</h2>
             </Col>
-          )}
+            <Col xs="auto">
+              <Button
+                variant="primary"
+                onClick={openAddProductModal}
+                className="d-flex align-items-center"
+              >
+                <i className="bi bi-plus-circle me-2"></i> Добавить
+              </Button>
+            </Col>
+          </Row>
+        </div>
 
-          <Col xs={12} md={isMobile ? 12 : 9} lg={isMobile ? 12 : 10}
-            className={`${isMobile ? 'px-3' : 'p-4'}`}>
-            <div className="mobile-search-container">
-              <Row className="mb-4 align-items-center">
-                <Col>
-                  <h1 className="mb-0">Поиск рецептов по продуктам</h1>
-                </Col>
-                <Col xs="auto">
-                  <Button
-                    variant="primary"
-                    onClick={openAddProductModal}
-                    className="d-flex align-items-center"
-                  >
-                    <i className="bi bi-plus-circle me-2"></i> Добавить продукт
-                  </Button>
-                </Col>
-              </Row>
+        {success && <Alert variant="success" className="mb-4">{success}</Alert>}
+        {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
 
-              {success && <Alert variant="success" className="mb-4">{success}</Alert>}
-              {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
-            </div>
-
-            <div className="mobile-product-list">
-              <Row>
-                <Col lg={12} className="mb-4">
-                  <Card
-                    className="shadow-sm"
-                    style={{
-                      backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
-                      borderColor: theme === 'dark' ? '#444' : '#dee2e6',
-                      color: theme === 'dark' ? '#fff' : '#212529'
-                    }}
-                  >
-                    <Card.Header className="bg-success text-white d-flex justify-content-between align-items-center">
-                      <h4 className="mb-0">Выберите продукты для поиска</h4>
-                      <Badge bg="light" text="dark" className="px-3 py-2">
-                        Выбрано: {selectedProducts.length}
-                      </Badge>
-                    </Card.Header>
-                    <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                      {loading ? (
-                        <div className="text-center py-5">
-                          <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Загрузка...</span>
-                          </Spinner>
-                          <p className="mt-2">Загрузка продуктов...</p>
-                        </div>
-                      ) : products.length === 0 ? (
-                        <Alert variant="info">
-                          Список продуктов пуст. Добавьте новые продукты, нажав кнопку "Добавить продукт".
-                        </Alert>
-                      ) : (
-                        <ListGroup>
-                          {products.map((product) => (
-                            <ListGroup.Item
-                              key={product.id}
-                              className="d-flex align-items-center justify-content-between py-3"
-                              action
-                              active={selectedProducts.includes(product.name)}
-                              onClick={(e) => toggleProductSelection(product, e)}
-                              style={{
-                                backgroundColor: selectedProducts.includes(product.name)
-                                  ? (theme === 'dark' ? '#375a7f' : '#d1e7dd')
-                                  : (theme === 'dark' ? '#333' : '#fff'),
-                                color: selectedProducts.includes(product.name)
-                                  ? (theme === 'dark' ? '#fff' : '#0f5132')
-                                  : (theme === 'dark' ? '#fff' : '#212529'),
-                                border: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
-                              }}
-                            >
-                              <div className="d-flex align-items-center">
-                                <Form.Check
-                                  type="checkbox"
-                                  checked={selectedProducts.includes(product.name)}
-                                  onChange={() => { }}
-                                  className="me-3"
-                                />
-                                {product.image && (
-                                  <Image
-                                    src={`https://back-c6rh.onrender.com${product.image}`}
-                                    alt={product.name}
-                                    width={50}
-                                    height={50}
-                                    className="me-3 object-fit-cover rounded"
-                                  />
-                                )}
-                                <div>
-                                  <h5 className="mb-0">{product.name}</h5>
-                                  <small className="text-muted">{product.number}</small>
-                                </div>
-                              </div>
-                              <Button
-                                variant="outline-danger"
-                                size="sm"
-                                className="delete-btn"
-                                onClick={(e) => openDeleteConfirmModal(product, e)}
-                              >
-                                <i className="bi bi-trash"></i>
-                              </Button>
-                            </ListGroup.Item>
-                          ))}
-                        </ListGroup>
-                      )}
-                    </Card.Body>
-                    <Card.Footer>
-                      <div className="d-grid">
-                        <Button
-                          variant="success"
-                          onClick={handleSearchRecipes}
-                          disabled={selectedProducts.length === 0 || searchLoading}
-                          size="lg"
+        <div className="mobile-product-list">
+          <Row>
+            <Col lg={12} className="mb-4">
+              <Card
+                className="shadow-sm"
+                style={{
+                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
+                  borderColor: theme === 'dark' ? '#444' : '#dee2e6',
+                  color: theme === 'dark' ? '#fff' : '#212529'
+                }}
+              >
+                <Card.Header className="bg-success text-white d-flex justify-content-between align-items-center">
+                  <h4 className="mb-0">Выберите продукты для поиска</h4>
+                  <Badge bg="light" text="dark" className="px-3 py-2">
+                    Выбрано: {selectedProducts.length}
+                  </Badge>
+                </Card.Header>
+                <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                  {loading ? (
+                    <div className="text-center py-5">
+                      <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Загрузка...</span>
+                      </Spinner>
+                      <p className="mt-2">Загрузка продуктов...</p>
+                    </div>
+                  ) : products.length === 0 ? (
+                    <Alert variant="info">
+                      Список продуктов пуст. Добавьте новые продукты, нажав кнопку "Добавить продукт".
+                    </Alert>
+                  ) : (
+                    <ListGroup>
+                      {products.map((product) => (
+                        <ListGroup.Item
+                          key={product.id}
+                          className="d-flex align-items-center justify-content-between py-3"
+                          action
+                          active={selectedProducts.includes(product.name)}
+                          onClick={(e) => toggleProductSelection(product, e)}
+                          style={{
+                            backgroundColor: selectedProducts.includes(product.name)
+                              ? (theme === 'dark' ? '#375a7f' : '#d1e7dd')
+                              : (theme === 'dark' ? '#333' : '#fff'),
+                            color: selectedProducts.includes(product.name)
+                              ? (theme === 'dark' ? '#fff' : '#0f5132')
+                              : (theme === 'dark' ? '#fff' : '#212529'),
+                            border: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
+                          }}
                         >
-                          {searchLoading ? (
-                            <>
-                              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
-                              Поиск рецептов...
-                            </>
-                          ) : (
-                            'Найти рецепты по выбранным продуктам'
-                          )}
-                        </Button>
-                      </div>
-                    </Card.Footer>
-                  </Card>
-                </Col>
-              </Row>
-            </div>
-
-            <h2 className="mt-5 mb-4">Результаты поиска</h2>
-            {recipes.length === 0 && !error && !searchLoading ? (
-              <Alert variant="info">
-                Выберите продукты и нажмите кнопку поиска, чтобы найти подходящие рецепты.
-              </Alert>
-            ) : (
-              <Row xs={1} md={2} lg={3} className="g-4">
-                {recipes.map((recipe) => (
-                  <Col key={recipe.id}>
-                    <Card
-                      className="h-100 shadow-sm recipe-card"
-                      onClick={() => history.push(`/recipes/${recipe.id}`)}
-                      style={{
-                        backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
-                        borderColor: theme === 'dark' ? '#444' : '#dee2e6',
-                        color: theme === 'dark' ? '#fff' : '#212529',
-                        cursor: 'pointer',
-                        transition: 'transform 0.3s ease, box-shadow 0.3s ease'
-                      }}
-                    >
-                      {recipe.image && (
-                        <div className="position-relative" style={{ height: '180px', overflow: 'hidden' }}>
-                          <Card.Img
-                            variant="top"
-                            src={`https://back-c6rh.onrender.com${recipe.image}`}
-                            alt={recipe.name}
-                            className="object-fit-cover w-100 h-100"
-                          />
-                          <div
-                            className="position-absolute top-0 end-0 p-2 m-2 rounded"
-                            style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white' }}
-                          >
-                            <i className="bi bi-clock me-1"></i> {recipe.cooking_time} мин
+                          <div className="d-flex align-items-center">
+                            <Form.Check
+                              type="checkbox"
+                              checked={selectedProducts.includes(product.name)}
+                              onChange={() => { }}
+                              className="me-3"
+                            />
+                            {product.image && (
+                              <Image
+                                src={`https://back-c6rh.onrender.com${product.image}`}
+                                alt={product.name}
+                                width={50}
+                                height={50}
+                                className="me-3 object-fit-cover rounded"
+                              />
+                            )}
+                            <div>
+                              <h5 className="mb-0">{product.name}</h5>
+                              <small className="text-muted">{product.number}</small>
+                            </div>
                           </div>
-                        </div>
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            className="delete-btn"
+                            onClick={(e) => openDeleteConfirmModal(product, e)}
+                          >
+                            <i className="bi bi-trash"></i>
+                          </Button>
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  )}
+                </Card.Body>
+                <Card.Footer>
+                  <div className="d-grid">
+                    <Button
+                      variant="success"
+                      onClick={handleSearchRecipes}
+                      disabled={selectedProducts.length === 0 || searchLoading}
+                      size="lg"
+                    >
+                      {searchLoading ? (
+                        <>
+                          <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                          Поиск рецептов...
+                        </>
+                      ) : (
+                        'Найти рецепты по выбранным продуктам'
                       )}
-                      <Card.Body>
-                        <Card.Title>{recipe.name}</Card.Title>
-                        <Card.Text className="text-truncate">
-                          {recipe.description}
-                        </Card.Text>
-                      </Card.Body>
-                      <Card.Footer className="d-flex justify-content-between align-items-center"
-                        style={{
-                          backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
-                          borderTop: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
-                        }}
-                      >
-                        <small className="text-muted">
-                          <i className="bi bi-fire me-1"></i> {recipe.calories} ккал
-                        </small>
-                        <small className="text-muted">
-                          <i className="bi bi-people me-1"></i> {recipe.serving} порц.
-                        </small>
-                      </Card.Footer>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            )}
-          </Col>
-        </Row>
+                    </Button>
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+          </Row>
+        </div>
       </div>
+
+      <h2 className="mt-5 mb-4">Результаты поиска</h2>
+      {recipes.length === 0 && !error && !searchLoading ? (
+        <Alert variant="info">
+          Выберите продукты и нажмите кнопку поиска, чтобы найти подходящие рецепты.
+        </Alert>
+      ) : (
+        <Row xs={1} md={2} lg={3} className="g-4">
+          {recipes.map((recipe) => (
+            <Col key={recipe.id}>
+              <Card
+                className="h-100 shadow-sm recipe-card"
+                onClick={() => history.push(`/recipes/${recipe.id}`)}
+                style={{
+                  backgroundColor: theme === 'dark' ? '#2d2d2d' : '#fff',
+                  borderColor: theme === 'dark' ? '#444' : '#dee2e6',
+                  color: theme === 'dark' ? '#fff' : '#212529',
+                  cursor: 'pointer',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+                }}
+              >
+                {recipe.image && (
+                  <div className="position-relative" style={{ height: '180px', overflow: 'hidden' }}>
+                    <Card.Img
+                      variant="top"
+                      src={`https://back-c6rh.onrender.com${recipe.image}`}
+                      alt={recipe.name}
+                      className="object-fit-cover w-100 h-100"
+                    />
+                    <div
+                      className="position-absolute top-0 end-0 p-2 m-2 rounded"
+                      style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: 'white' }}
+                    >
+                      <i className="bi bi-clock me-1"></i> {recipe.cooking_time} мин
+                    </div>
+                  </div>
+                )}
+                <Card.Body>
+                  <Card.Title>{recipe.name}</Card.Title>
+                  <Card.Text className="text-truncate">
+                    {recipe.description}
+                  </Card.Text>
+                </Card.Body>
+                <Card.Footer className="d-flex justify-content-between align-items-center"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#333' : '#f8f9fa',
+                    borderTop: theme === 'dark' ? '1px solid #444' : '1px solid #dee2e6',
+                  }}
+                >
+                  <small className="text-muted">
+                    <i className="bi bi-fire me-1"></i> {recipe.calories} ккал
+                  </small>
+                  <small className="text-muted">
+                    <i className="bi bi-people me-1"></i> {recipe.serving} порц.
+                  </small>
+                </Card.Footer>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
 
       {isMobile && <MobileNavigation activePage="product-search" theme={theme} />}
 
