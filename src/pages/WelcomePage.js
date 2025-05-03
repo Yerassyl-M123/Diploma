@@ -98,15 +98,7 @@ const WelcomePage = () => {
         zIndex: 1000
       }}>
         <Container>
-          <Nav.Item className="navbar-brand d-flex align-items-center">
-            <img 
-              src="/img/logo.png" 
-              alt="NutriMind Logo"
-              style={{ 
-                height: '40px',
-                marginRight: '10px'
-              }}
-            />
+          <Nav.Item className="navbar-brand">
             <h1 className="m-0">
               <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
               <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>
@@ -172,35 +164,17 @@ const WelcomePage = () => {
               </Button>
             </Col>
             <Col md={6}>
-              <div style={{
-                position: 'relative',
-                overflow: 'hidden',
-                borderRadius: '20px'
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-50%',
-                  right: '-50%',
-                  width: '150%',
-                  height: '150%',
-                  background: 'linear-gradient(135deg, #2E8B57, #4682B4)',
-                  transform: 'rotate(-15deg)',
-                  zIndex: 0
-                }} />
-                <img 
-                  src="img/mainphoto.png" 
-                  alt="Hero" 
-                  className="img-fluid"
-                  style={{
-                    position: 'relative',
-                    zIndex: 1,
-                    borderRadius: '20px',
-                    transform: 'perspective(1000px) rotateY(-5deg)',
-                    maxHeight: '500px',
-                    objectFit: 'cover'
-                  }}
-                />
-              </div>
+              <img 
+                src="img/mainphoto.png" 
+                alt="Hero" 
+                className="img-fluid rounded-lg shadow-lg"
+                style={{
+                  borderRadius: '20px',
+                  transform: 'perspective(1000px) rotateY(-5deg)',
+                  maxHeight: '500px',
+                  objectFit: 'cover'
+                }}
+              />
             </Col>
           </Row>
         </Container>
@@ -540,17 +514,7 @@ const WelcomePage = () => {
         <Container>
           <Row>
             <Col md={4} className="mb-4 mb-md-0">
-              <div className="d-flex align-items-center mb-4">
-                <img 
-                  src="/img/logo.png" 
-                  alt="NutriMind Logo"
-                  style={{ 
-                    height: '30px',
-                    marginRight: '10px'
-                  }}
-                />
-                <h5 className="mb-0">Свяжитесь с нами</h5>
-              </div>
+              <h5 className="mb-4">Свяжитесь с нами</h5>
               <div className="mb-3 d-flex align-items-center">
                 <i className="bi bi-telephone me-2"></i>
                 <span>+77473644672</span>
