@@ -98,7 +98,15 @@ const WelcomePage = () => {
         zIndex: 1000
       }}>
         <Container>
-          <Nav.Item className="navbar-brand">
+          <Nav.Item className="navbar-brand d-flex align-items-center">
+            <img 
+              src="/img/logo.png" 
+              alt="NutriMind Logo"
+              style={{ 
+                height: '40px',
+                marginRight: '10px'
+              }}
+            />
             <h1 className="m-0">
               <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
               <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>
@@ -514,7 +522,17 @@ const WelcomePage = () => {
         <Container>
           <Row>
             <Col md={4} className="mb-4 mb-md-0">
-              <h5 className="mb-4">Свяжитесь с нами</h5>
+              <div className="d-flex align-items-center mb-4">
+                <img 
+                  src="/img/logo.png" 
+                  alt="NutriMind Logo"
+                  style={{ 
+                    height: '30px',
+                    marginRight: '10px'
+                  }}
+                />
+                <h5 className="mb-0">Свяжитесь с нами</h5>
+              </div>
               <div className="mb-3 d-flex align-items-center">
                 <i className="bi bi-telephone me-2"></i>
                 <span>+77473644672</span>
