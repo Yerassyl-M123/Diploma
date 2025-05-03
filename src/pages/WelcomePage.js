@@ -172,17 +172,35 @@ const WelcomePage = () => {
               </Button>
             </Col>
             <Col md={6}>
-              <img 
-                src="img/mainphoto.png" 
-                alt="Hero" 
-                className="img-fluid rounded-lg shadow-lg"
-                style={{
-                  borderRadius: '20px',
-                  transform: 'perspective(1000px) rotateY(-5deg)',
-                  maxHeight: '500px',
-                  objectFit: 'cover'
-                }}
-              />
+              <div style={{
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: '20px'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-50%',
+                  right: '-50%',
+                  width: '150%',
+                  height: '150%',
+                  background: 'linear-gradient(135deg, #2E8B57, #4682B4)',
+                  transform: 'rotate(-15deg)',
+                  zIndex: 0
+                }} />
+                <img 
+                  src="img/mainphoto.png" 
+                  alt="Hero" 
+                  className="img-fluid"
+                  style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    borderRadius: '20px',
+                    transform: 'perspective(1000px) rotateY(-5deg)',
+                    maxHeight: '500px',
+                    objectFit: 'cover'
+                  }}
+                />
+              </div>
             </Col>
           </Row>
         </Container>

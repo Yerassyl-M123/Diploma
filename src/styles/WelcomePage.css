@@ -200,3 +200,14 @@
   .navbar-brand:hover img {
     transform: scale(1.1);
   }
+
+.hero-section img {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .hero-section img {
+    margin-top: 2rem;
+    transform: none !important;
+  }
+}
