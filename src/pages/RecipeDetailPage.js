@@ -442,7 +442,7 @@ const RecipeDetailPage = () => {
                             <div className="d-flex">
                               <div className="me-3">
                                 <Badge pill bg="primary" style={{ width: '24px', height: '24px' }} className="d-flex align-items-center justify-content-center">
-                                  {index + 1}
+                                  {/* {index + 1} */}
                                 </Badge>
                               </div>
                               <div>{step}</div>
