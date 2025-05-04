@@ -438,7 +438,7 @@ const RecipeDetailPage = () => {
                     {steps.length > 0 ? (
                       <ol className="ps-3">
                         {steps.map((step, index) => (
-                          <li key={index} className="mb-3">
+                          <li className="mb-3">
                             <div className="d-flex">
                               <div className="me-3">
                                 <Badge pill bg="primary" style={{ width: '24px', height: '24px' }} className="d-flex align-items-center justify-content-center">
