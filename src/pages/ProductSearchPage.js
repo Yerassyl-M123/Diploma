@@ -242,6 +242,11 @@ const ProductSearchPage = () => {
                 }}>
                   <i className="bi bi-search me-2"></i> AI Сканер
                 </Nav.Link>
+                <Nav.Link as={Link} to="/chat" className="ps-4 py-3" style={{
+                  borderLeft: '4px solid transparent'
+                }}>
+                  <i className="bi bi-chat me-2"></i> Чат
+                </Nav.Link>
                 <Nav.Link as={Link} to="/settings" className="ps-4 py-3" style={{
                   borderLeft: '4px solid transparent'
                 }}>
