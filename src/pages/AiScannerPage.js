@@ -182,6 +182,14 @@ const AiScannerPage = () => {
           backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff'
         }}>
           <Col xs={12} className="d-flex align-items-center">
+          <img 
+              src="/img/logo.png" 
+              alt="NutriMind Logo"
+              style={{ 
+                height: '40px',
+                marginRight: '10px'
+              }}
+            />
             <h1 className="m-0">
               <Link to="/" className="text-decoration-none">
                 <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
