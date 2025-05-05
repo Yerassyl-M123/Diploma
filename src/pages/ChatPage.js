@@ -151,7 +151,7 @@ const ChatPage = () => {
                 <Nav.Link as={Link} to="/ai-scanner" className="ps-4 py-3" style={{
                   borderLeft: '4px solid transparent'
                 }}>
-                  <i className="bi bi-search me-2"></i> AI Сканер
+                  <i className="bi bi-camera me-2"></i> AI Сканер
                 </Nav.Link>
                 <Nav.Link as={Link} to="/chat" className="ps-4 py-3 active" style={{
                   borderLeft: '4px solid #2E8B57',
