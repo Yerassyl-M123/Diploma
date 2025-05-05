@@ -178,6 +178,14 @@ const HomePage = () => {
         zIndex: 1000 
       }}>
         <Col xs={6} className="d-flex align-items-center">
+        <img 
+              src="/img/logo.png" 
+              alt="NutriMind Logo"
+              style={{ 
+                height: '40px',
+                marginRight: '10px'
+              }}
+            />
           <h1 className="m-0">
             <span style={{ color: '#2E8B57', fontWeight: 'bold' }}>Nutri</span>
             <span style={{ color: '#4682B4', fontWeight: 'bold' }}>Mind</span>

@@ -580,7 +580,7 @@ const WelcomePage = () => {
           <hr className="my-4" />
           
           <div className="text-center">
-            <p className="mb-0">&copy; 2024 NutriMind. Все права защищены.</p>
+            <p className="mb-0">&copy; 2025 NutriMind. Все права не защищены.</p>
           </div>
         </Container>
       </footer>

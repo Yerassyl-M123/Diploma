@@ -257,7 +257,7 @@ const SettingsPage = () => {
                   </p>
                   <p className="mb-0">
                     Версия: 1.0.0 <br />
-                    © 2025 NutriMind. Все права защищены.
+                    © 2025 NutriMind. Все права не защищены.
                   </p>
                 </Card.Body>
               </Card>
